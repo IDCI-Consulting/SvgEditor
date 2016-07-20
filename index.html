@@ -1,22 +1,14 @@
-<!--
-  editeur  = widget
-  textarea = svg
-  => allow to disable textarea events
-  => babel
--->
-
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Titre de la page</title>
-</head>
-<body>
-    <canvas id="canvas" width="300" height="300"></canvas>
-    <textarea id="svg-output" rows="15" cols="50"></textarea>
-    <link rel="stylesheet" href="style.css">
-    <script src="bower_components/fabric.js/dist/fabric.js"></script>
-    <script src="lib/SvgEditor.js"></script>
-    <script src="lib/init.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Titre de la page</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="bower_components/fabric.js/dist/fabric.js"></script>
+        <script data-main="lib/init" src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>
+    </head>
+    <body>
+        <canvas id="canvas" width="300" height="300"></canvas>
+        <textarea id="svg-output" rows="15" cols="50"></textarea>
+    </body>
 </html>

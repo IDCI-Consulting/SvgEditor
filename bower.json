@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "fabric.js": "fabric#^1.6.3"
+    "fabric.js": "fabric#^1.6.3",
+    "requirejs": "~2.2.0"
   }
 }

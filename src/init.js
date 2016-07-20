@@ -1,5 +1,4 @@
 requirejs(['./class/SvgEditor', './config/config'], function(SvgEditor, config) {
-  console.log(SvgEditor);
   var output = document.getElementById('svg-output');
   var svgEditor = new SvgEditor(new fabric.Canvas('canvas'), output, config);
 

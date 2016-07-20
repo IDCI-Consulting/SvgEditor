@@ -1,0 +1,26 @@
+{
+  "name": "fabricjs",
+  "description": "A fabricjs prototype",
+  "main": "index.html",
+  "authors": [
+    "baptiste.bouchereau@idci-consulting.fr"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "fabricjs",
+    "svg",
+    "babel"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fabric.js": "fabric#^1.6.3"
+  }
+}

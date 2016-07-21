@@ -1,7 +1,7 @@
 /**
  * SvgEditor module
  */
-define(['./ImageReader'], function (ImageReader) {
+define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
 
   return class SvgEditor {
 
@@ -12,6 +12,10 @@ define(['./ImageReader'], function (ImageReader) {
       this.outputArea = outputArea;
       this.canvas = canvas;
       this.imageInput = imageInput;
+
+      if (true !== config.display_textarea) {
+        outputArea.style.display = "none";
+      }
 
       if (true !== config.enable_textarea_edition) {
         outputArea.readOnly = true;
@@ -34,8 +38,6 @@ define(['./ImageReader'], function (ImageReader) {
       this.outputArea.value = this.canvas.toSVG();
     }
 
-
-
     /**
      * Start a listener to fill the output area when the canvas is edited
      */
@@ -45,7 +47,7 @@ define(['./ImageReader'], function (ImageReader) {
           fabric.loadSVGFromString(event.target.value, (objects, options) => {
             this.canvas.off('after:render');
             this.canvas.clear();
-            var object = fabric.util.groupSVGElements(objects, options);
+            let object = fabric.util.groupSVGElements(objects, options);
             this.canvas.add(object);
             this.canvas.renderAll();
             this.canvas.on('after:render', () => { this.fillOutput() });
@@ -63,21 +65,15 @@ define(['./ImageReader'], function (ImageReader) {
      */
     startImageLoader() {
       this.imageInput.onchange = (e) => {
-        let imageReader = new ImageReader(e.target.files[0]);
-        imageReader.getImageObject((object) => {
-          let image = new fabric.Image(object);
-          image.set({
-            angle: 0,
-            padding: 10,
-            cornersize:10,
-            height:110,
-            width:110,
-          });
-          this.canvas.centerObject(image);
-          this.canvas.add(image);
-          this.canvas.renderAll();
+        let file = e.target.files[0];
+        let imageReaderRegistry = new ImageReaderRegistry();
+        let imageReader = imageReaderRegistry.guessImageReader(file.type);
+        let item = imageReader.getCanvasImage(file, (item) => {
+          this.canvas.centerObject(item);
+          this.canvas.add(item);
+          this.canvas.renderAll(); 
         });
-      };
+      }
     }
 
   }

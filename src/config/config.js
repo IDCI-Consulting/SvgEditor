@@ -2,5 +2,5 @@
  * Configuration
  */
 define({
-  enable_textarea: false
+  enable_textarea_edition: false
 });

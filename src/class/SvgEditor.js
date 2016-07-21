@@ -1,29 +1,30 @@
 /**
  * SvgEditor module
  */
-define(function () {
+define(['./ImageReader'], function (ImageReader) {
 
   return class SvgEditor {
 
     /**
      * Constructor
      */
-    constructor(canvas, outputArea, config) {
+    constructor(canvas, outputArea, imageInput, config) {
       this.outputArea = outputArea;
       this.canvas = canvas;
+      this.imageInput = imageInput;
 
-      if (true !== config.enable_textarea) {
+      if (true !== config.enable_textarea_edition) {
         outputArea.readOnly = true;
       }
     }
 
     /**
-     * Get the canvas
-     *
-     * @return canvas
+     * Initialize the editor
      */
-    getCanvas() {
-      return this.canvas;
+    init() {
+      this.canvas.on('after:render', () => { this.fillOutput() });
+      this.startOutputAreaListener();
+      this.startImageLoader();
     }
 
     /**
@@ -32,6 +33,8 @@ define(function () {
     fillOutput() {
       this.outputArea.value = this.canvas.toSVG();
     }
+
+
 
     /**
      * Start a listener to fill the output area when the canvas is edited
@@ -54,6 +57,29 @@ define(function () {
         });
       }
     }
+
+    /**
+     * Start an image loader
+     */
+    startImageLoader() {
+      this.imageInput.onchange = (e) => {
+        let imageReader = new ImageReader(e.target.files[0]);
+        imageReader.getImageObject((object) => {
+          let image = new fabric.Image(object);
+          image.set({
+            angle: 0,
+            padding: 10,
+            cornersize:10,
+            height:110,
+            width:110,
+          });
+          this.canvas.centerObject(image);
+          this.canvas.add(image);
+          this.canvas.renderAll();
+        });
+      };
+    }
+
   }
 
 });

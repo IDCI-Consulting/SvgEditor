@@ -14,7 +14,7 @@ define(['./ImageReader/ImageReaderRegistry', './SvgColorator'], function (ImageR
       this.imageInput = imageInput;
       this.colorPicker = colorPicker;
 
-      if (true !== config.enable_textarea_edition) {
+      if (true !== config.display_textarea) {
         outputArea.style.display = "none";
       }
 

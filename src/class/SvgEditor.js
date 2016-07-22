@@ -1,7 +1,7 @@
 /**
  * SvgEditor module
  */
-define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
+define(['./ImageReader/ImageReaderRegistry', './SvgColorator'], function (ImageReaderRegistry, SvgColorator) {
 
   return class SvgEditor {
 
@@ -82,22 +82,12 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
      * Start color picker
      */
     startColorPicker() {
-      this.colorPicker.onclick = (e) => {
-      
+      this.colorPicker.onchange = (e) => {
         let element = this.canvas.getActiveObject();
-        let color = '#2980B9';
-        
-        if (element.isSameColor && element.isSameColor() || !element.paths) {
-          element.setFill(color);
-        }
-        else if (element.paths) {
-          for (var i = 0; i < element.paths.length; i++) {
-            let filledColor = element.paths[i].fill
-            if (filledColor !== 'rgb(255,255,255)') {
-              element.paths[i].setFill(color);
-              this.canvas.renderAll();
-            }
-          }
+        if (element) {
+          let color = '#' + e.target.value;
+          SvgColorator.color(element, color);
+          this.canvas.renderAll();
         }
       }
     }

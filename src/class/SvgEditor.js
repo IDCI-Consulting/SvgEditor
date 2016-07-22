@@ -33,6 +33,7 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
       });
       this.canvas.on('object:moving', (e) => { e.target.bringToFront(); });
       this.startOutputAreaListener();
+      this.startKeyboardListener();
       this.startImageLoader();
     }
 
@@ -54,7 +55,6 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
             this.canvas.clear();
             let object = fabric.util.groupSVGElements(objects, options);
             this.canvas.add(object);
-            this.canvas.renderAll();
             this.canvas.on('after:render', () => { this.fillOutput() });
           });
         }, false);
@@ -76,11 +76,26 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
         let item = imageReader.getCanvasImage(file, (item) => {
           this.canvas.centerObject(item);
           this.canvas.add(item);
-          this.canvas.renderAll(); 
         });
       }
     }
 
+    /**
+     * Start a keyboard listener
+     */
+    startKeyboardListener() {
+      document.addEventListener("keydown", (e) => {
+         var keyId = event.keyCode;
+         // backspace -> 8
+         // delete    -> 46
+         if (keyId === 46) {
+           let element = this.canvas.getActiveObject();
+           if (element) {
+             element.remove();
+           }
+         }
+      });
+    }
   }
 
 });

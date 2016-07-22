@@ -13,7 +13,7 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
       this.canvas = canvas;
       this.imageInput = imageInput;
 
-      if (true !== config.display_textarea) {
+      if (true !== config.enable_textarea_edition) {
         outputArea.style.display = "none";
       }
 

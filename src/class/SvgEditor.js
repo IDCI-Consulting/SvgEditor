@@ -1,17 +1,18 @@
 /**
  * SvgEditor module
  */
-define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
+define(['./ImageReader/ImageReaderRegistry', './SvgColorator'], function (ImageReaderRegistry, SvgColorator) {
 
   return class SvgEditor {
 
     /**
      * Constructor
      */
-    constructor(canvas, outputArea, imageInput, config) {
+    constructor(canvas, outputArea, imageInput, colorPicker, config) {
       this.outputArea = outputArea;
       this.canvas = canvas;
       this.imageInput = imageInput;
+      this.colorPicker = colorPicker;
 
       if (true !== config.enable_textarea_edition) {
         outputArea.style.display = "none";
@@ -35,6 +36,7 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
       this.startOutputAreaListener();
       this.startKeyboardListener();
       this.startImageLoader();
+      this.startColorPicker();
     }
 
     /**
@@ -95,6 +97,20 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
            }
          }
       });
+    }
+
+    /**
+     * Start color picker
+     */
+    startColorPicker() {
+      this.colorPicker.onchange = (e) => {
+        let element = this.canvas.getActiveObject();
+        if (element) {
+          let color = '#' + e.target.value;
+          SvgColorator.color(element, color);
+          this.canvas.renderAll();
+        }
+      }
     }
   }
 

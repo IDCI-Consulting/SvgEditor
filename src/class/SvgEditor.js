@@ -26,7 +26,12 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
      * Initialize the editor
      */
     init() {
-      this.canvas.on('after:render', () => { this.fillOutput() });
+      this.canvas.on('after:render', () => {
+        this.fillOutput();
+        // reset the file input to allow to add the same file several times
+        this.imageInput.value = "";
+      });
+      this.canvas.on('object:moving', (e) => { e.target.bringToFront(); });
       this.startOutputAreaListener();
       this.startImageLoader();
     }

@@ -1,0 +1,9 @@
+app:
+  image: ovski/frontend-dev
+  volumes:
+   - .:/var/www
+  ports:
+   - 8030:80
+   - 35729:35729
+  environment:
+   - VIRTUAL_HOST=dev.svg-editor-widget.fr

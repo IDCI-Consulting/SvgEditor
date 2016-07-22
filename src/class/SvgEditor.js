@@ -8,10 +8,11 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
     /**
      * Constructor
      */
-    constructor(canvas, outputArea, imageInput, config) {
+    constructor(canvas, outputArea, imageInput, colorPicker, config) {
       this.outputArea = outputArea;
       this.canvas = canvas;
       this.imageInput = imageInput;
+      this.colorPicker = colorPicker;
 
       if (true !== config.display_textarea) {
         outputArea.style.display = "none";
@@ -29,6 +30,7 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
       this.canvas.on('after:render', () => { this.fillOutput() });
       this.startOutputAreaListener();
       this.startImageLoader();
+      this.startColorPicker();
     }
 
     /**
@@ -73,6 +75,30 @@ define(['./ImageReader/ImageReaderRegistry'], function (ImageReaderRegistry) {
           this.canvas.add(item);
           this.canvas.renderAll(); 
         });
+      }
+    }
+
+    /**
+     * Start color picker
+     */
+    startColorPicker() {
+      this.colorPicker.onclick = (e) => {
+      
+        let element = this.canvas.getActiveObject();
+        let color = '#2980B9';
+        
+        if (element.isSameColor && element.isSameColor() || !element.paths) {
+          element.setFill(color);
+        }
+        else if (element.paths) {
+          for (var i = 0; i < element.paths.length; i++) {
+            let filledColor = element.paths[i].fill
+            if (filledColor !== 'rgb(255,255,255)') {
+              element.paths[i].setFill(color);
+              this.canvas.renderAll();
+            }
+          }
+        }
       }
     }
 

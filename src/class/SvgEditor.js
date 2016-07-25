@@ -125,7 +125,7 @@ define(
      * Start a keyboard listener
      */
     startKeyboardListener() {
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener("keydown", (event) => {
          var keyId = event.keyCode;
          // backspace -> 8
          // delete    -> 46

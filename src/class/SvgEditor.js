@@ -1,7 +1,14 @@
 /**
  * SvgEditor module
  */
-define(['./ImageReader/ImageReaderRegistry', './SvgColorator'], function (ImageReaderRegistry, SvgColorator) {
+define(
+  [
+    './ImageReader/ImageReaderRegistry',
+    './PersistenceManager/PersistenceManagerRegistry',
+    './Serializer/SerializerRegistry',
+    './SvgColorator'
+  ],
+  function (ImageReaderRegistry, PersistenceManagerRegistry, SerializerRegistry, SvgColorator) {
 
   return class SvgEditor {
 
@@ -9,34 +16,66 @@ define(['./ImageReader/ImageReaderRegistry', './SvgColorator'], function (ImageR
      * Constructor
      */
     constructor(canvas, outputArea, imageInput, colorPicker, config) {
+
       this.outputArea = outputArea;
       this.canvas = canvas;
       this.imageInput = imageInput;
       this.colorPicker = colorPicker;
+      this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
+      this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
 
-      if (true !== config.display_textarea) {
-        outputArea.style.display = "none";
-      }
-
-      if (true !== config.enable_textarea_edition) {
-        outputArea.readOnly = true;
-      }
+      this.init(config);
     }
 
     /**
      * Initialize the editor
+     *
+     * @param config: the configuration
      */
-    init() {
+    init(config) {
+
       this.canvas.on('after:render', () => {
         this.fillOutput();
-        // reset the file input to allow to add the same file several times
-        this.imageInput.value = "";
+        this.persistCanvas();
+        this.imageInput.value = ""; // reset the file input to allow to add the same file several times
       });
+
       this.canvas.on('object:moving', (e) => { e.target.bringToFront(); });
+      
       this.startOutputAreaListener();
       this.startKeyboardListener();
       this.startImageLoader();
       this.startColorPicker();
+      this.loadCanvas();
+
+      if (true !== config.display_textarea) {
+        this.outputArea.style.display = "none";
+      }
+
+      if (true !== config.enable_textarea_edition) {
+        this.outputArea.readOnly = true;
+      }
+
+    }
+
+    /**
+     * Persist the canvas
+     */
+    persistCanvas() {
+      let serializedCanvas = this.serializer.serialize(this.canvas);
+      this.persistenceManager.persist(serializedCanvas);
+    }
+
+    /**
+     * Load canvas
+     */
+    loadCanvas() {
+      let serializedCanvas = this.persistenceManager.load();
+      if (serializedCanvas) {
+        this.serializer.deserialize(serializedCanvas, this.canvas, () => {
+          this.canvas.renderAll();
+        });
+      }
     }
 
     /**

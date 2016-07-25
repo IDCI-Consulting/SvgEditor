@@ -10,6 +10,4 @@ requirejs(['./class/SvgEditor', './config/config'], function(SvgEditor, config) 
     colorPicker,
     config
   );
-
-  svgEditor.init();
 });

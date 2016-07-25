@@ -12,19 +12,23 @@ define(function () {
 
       function isWhite(color) {
         return (
-          color == 'rgb(255,255,255)' ||
-          color == '#fff'
+          color === 'rgb(255,255,255)' ||
+          color === '#fff' ||
+          color === '#ffffff' ||
+          color === '#FFFFFF' ||
+          color === '#FFF'
         );
       }
 
       if (canvasObject.isSameColor && canvasObject.isSameColor() || !canvasObject.paths) {
         canvasObject.setFill(color);
-      }
-      else if (canvasObject.paths) {
+      } else if (canvasObject.paths) {
         for (var i = 0; i < canvasObject.paths.length; i++) {
+          let path = canvasObject.paths[i];
           let filledColor = canvasObject.paths[i].fill;
-          if (!isWhite(filledColor)) {
-            canvasObject.paths[i].setFill(color);
+          if (!isWhite(filledColor) || true === path.colored) {
+            path.setFill(color);
+            path.colored = true;
           }
         }
       }

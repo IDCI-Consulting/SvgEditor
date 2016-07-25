@@ -10,7 +10,7 @@ var gulp       = require('gulp'),
 ;
 
 // Task to watch files
-gulp.task('watch', function() {
+gulp.task('watch', ['babel'], function() {
   livereload.listen();
   gulp.watch(scripts, ['babel', 'views']);
   // gulp.watch(views, ['views']);

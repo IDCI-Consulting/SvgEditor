@@ -13,52 +13,11 @@
         <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
     </head>
     <body>
-
         <input id="image-loader" type="file" name="picture"/></br>
         <input id="load-modal-button" type="button" name="load" value="load"/>
         <input id="save-modal-button" type="button" name="save" value="save"/></br>
         <input id="color-picker" class="jscolor" value="000000"></br>
         <canvas id="canvas" width="300" height="300"></canvas>
         <textarea id="svg-output-area" rows="15" cols="50"></textarea>
-
-        <!-- modal to load saved projects -->
-        <div class="modal fade" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="modalLoad">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- modal to save projects -->
-        <div class="modal fade" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="modalLoad">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Save your project</h4>
-              </div>
-              <div class="modal-body">
-                  <strong>New save</strong>
-                  <input type="text" placeholder="Your title goes here.."/>
-                  <button id="new-save-button" type="button" class="btn btn-primary">Save</button>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
     </body>
 </html>

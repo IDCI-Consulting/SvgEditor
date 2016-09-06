@@ -3,9 +3,9 @@
  */
 define(function () {
   return [
-    {
+    /*{
       "class": "plugins/AutoSave/AutoSavePlugin"
-    },
+    },*/
     {
       "class": "plugins/ColorPicker/ColorPickerPlugin",
       "inputId": "color-picker"
@@ -20,6 +20,11 @@ define(function () {
     },
     {
       "class": "plugins/KeyboardListener/KeyboardListenerPlugin"
+    },
+    {
+      "class": "plugins/ManualSave/ManualSavePlugin",
+      "loadButtonInputId" : "load-modal-button",
+      "saveButtonInputId" : "save-modal-button"
     }
   ];
 });

@@ -16,7 +16,6 @@ define(
         this.canvas = canvas;
         this.serializer = new SerializerRegistry().guessSerializer(editorConfig.serializer);
         this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(editorConfig.persistence_manager);
-
       }
 
       /**
@@ -34,14 +33,14 @@ define(
        */
       persistCanvas() {
         let serializedCanvas = this.serializer.serialize(this.canvas);
-        this.persistenceManager.persist(serializedCanvas);
+        this.persistenceManager.persist(serializedCanvas, {key: 'autosave'});
       }
 
       /**
        * Load canvas
        */
       loadCanvas() {
-        let serializedCanvas = this.persistenceManager.load();
+        let serializedCanvas = this.persistenceManager.load({key: 'autosave'});
         if (serializedCanvas) {
           this.serializer.deserialize(serializedCanvas, this.canvas, () => {
             this.canvas.renderAll();

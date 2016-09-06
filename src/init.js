@@ -1,5 +1,5 @@
-requirejs(['./class/SvgEditor', './class/FabricOverride', './config/config'], function(SvgEditor, FabricOverride, config) {
-  FabricOverride.override(fabric, config);
+requirejs(['./class/SvgEditor', './class/FabricOverrider', './config/config'], function(SvgEditor, FabricOverrider, config) {
+  FabricOverrider.override(fabric, config);
 
   var output = document.getElementById('svg-output');
   var imageInput = document.getElementById('image-input');

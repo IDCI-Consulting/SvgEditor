@@ -13,7 +13,7 @@ define(
      * Constructor
      */
     constructor(canvas, editorConfig, pluginConfig) {
-      this.colorPicker = document.getElementById(pluginConfig.elementId);
+      this.colorPicker = document.getElementById(pluginConfig.inputId);
       this.canvas      = canvas;
     }
 

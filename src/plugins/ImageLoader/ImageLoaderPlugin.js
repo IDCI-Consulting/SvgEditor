@@ -13,7 +13,7 @@ define(
        * Constructor
        */
       constructor(canvas, editorConfig, pluginConfig) {
-        this.imageInput = document.getElementById(pluginConfig.elementId);
+        this.imageInput = document.getElementById(pluginConfig.fileInputId);
         this.canvas     = canvas;
       }
 

@@ -11,7 +11,7 @@ define(
        */
       constructor(canvas, editorConfig, pluginConfig) {
 
-        this.outputArea   = document.getElementById(pluginConfig.elementId);
+        this.outputArea   = document.getElementById(pluginConfig.texareaId);
         this.canvas       = canvas;
         this.editorConfig = editorConfig;
       }

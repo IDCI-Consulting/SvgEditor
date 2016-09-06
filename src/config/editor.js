@@ -11,7 +11,7 @@ define({
   // handles configuration
   cornerShift: 'in', // middle, in or out
   cornerSize: 5,
-  transparentCorners: false,
+  tiransparentCorners: false,
   cornerColor: '#00D0AE',
   borderColor: '#00D0AE'
 });

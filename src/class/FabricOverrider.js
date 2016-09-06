@@ -3,7 +3,7 @@
  */
 define(function () {
 
-  return class FabricOverride {
+  return class FabricOverrider {
 
     /**
      * Override the fabric object

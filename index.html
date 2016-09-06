@@ -13,12 +13,13 @@
         <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
     </head>
     <body>
-        <input id="image-input" type="file" name="picture"/></br>
+
+        <input id="image-loader" type="file" name="picture"/></br>
         <input id="load-modal-button" type="button" name="load" value="load"/>
         <input id="save-modal-button" type="button" name="save" value="save"/></br>
         <input id="color-picker" class="jscolor" value="000000"></br>
         <canvas id="canvas" width="300" height="300"></canvas>
-        <textarea id="svg-output" rows="15" cols="50"></textarea>
+        <textarea id="svg-output-area" rows="15" cols="50"></textarea>
 
         <!-- modal to load saved projects -->
         <div class="modal fade" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="modalLoad">
@@ -58,5 +59,6 @@
             </div>
           </div>
         </div>
+
     </body>
 </html>

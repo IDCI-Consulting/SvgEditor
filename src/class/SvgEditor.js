@@ -15,12 +15,14 @@ define(
     /**
      * Constructor
      */
-    constructor(canvas, outputArea, imageInput, colorPicker, config) {
+    constructor(canvas, outputArea, imageInput, colorPicker, loadModalButton, saveModalButton, config) {
 
       this.outputArea = outputArea;
       this.canvas = canvas;
       this.imageInput = imageInput;
       this.colorPicker = colorPicker;
+      this.loadModalButton = loadModalButton;
+      this.saveModalButton = saveModalButton;
       this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
       this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
 
@@ -46,6 +48,7 @@ define(
       this.startKeyboardListener();
       this.startImageLoader();
       this.startColorPicker();
+      this.startLoaderAndSaver();
       this.loadCanvas();
 
       if (true !== config.display_textarea) {
@@ -149,6 +152,18 @@ define(
           SvgColorator.color(element, color);
           this.canvas.renderAll();
         }
+      }
+    }
+
+    /**
+     * Start color picker
+     */
+    startLoaderAndSaver() {
+      this.loadModalButton.onclick = (e) => {
+        $('#load-modal').modal('show');
+      }
+      this.saveModalButton.onclick = (e) => {
+        $('#save-modal').modal('show');
       }
     }
   }

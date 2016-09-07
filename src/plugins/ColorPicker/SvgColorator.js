@@ -16,24 +16,30 @@ define(function () {
           color === '#fff' ||
           color === '#ffffff' ||
           color === '#FFFFFF' ||
-          color === '#FFF'
+          color === '#FFF' ||
+          color === null ||
+          color === ''
         );
       }
 
-      if (canvasObject.isSameColor && canvasObject.isSameColor() || !canvasObject.paths) {
+      if (!canvasObject.paths) {
         canvasObject.setFill(color);
       } else if (canvasObject.paths) {
         for (var i = 0; i < canvasObject.paths.length; i++) {
           let path = canvasObject.paths[i];
-          let filledColor = canvasObject.paths[i].fill;
-          if (!isWhite(filledColor) || true === path.colored) {
-            path.setFill(color);
-            path.colored = true;
+
+          if (!isWhite(path.fill) || true === path.fillColored) {
+            path.fill = color;
+            path.fillColored = true;
+          }
+
+          if (!isWhite(path.stroke) || true === path.strokeColored) {
+            path.stroke = color;
+            path.strokeColored = true;
           }
         }
       }
     }
-
   }
 
 });

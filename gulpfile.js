@@ -16,6 +16,9 @@ gulp.task('watch', ['babel'], function() {
   // gulp.watch(views, ['views']);
 });
 
+// Task to watch files
+gulp.task('prod', ['babel'], function() {});
+
 gulp.task('babel', function() {
   gulp
     .src('src/**/*.js')

@@ -1,5 +1,5 @@
 /**
- * ImageReader module
+ * ImageReaderRegistry module
  */
 define(['./PlainImageReader', './SvgImageReader'], function (PlainImageReader, SvgImageReader) {
 
@@ -34,7 +34,6 @@ define(['./PlainImageReader', './SvgImageReader'], function (PlainImageReader, S
 
       throw Error(`No reader found for mime type ${mimeType}`);
     }
-
   }
 
 });

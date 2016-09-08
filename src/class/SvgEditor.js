@@ -24,7 +24,7 @@ define(
       }
 
       /**
-       * Load the plugins from the configuration
+       * Load the plugins from the configuration (check the parameters then start the plugins)
        */
       loadPlugins(canvas, pluginsConfig, editorConfig) {
         for (let i=0; i < pluginsConfig.length; i++) {
@@ -34,7 +34,15 @@ define(
           } else {
             require([pluginConfig['class']], function(Plugin) {
               let plugin = new Plugin(canvas, editorConfig, pluginConfig);
-              plugin.start();
+              if (typeof plugin.start !== 'function' || typeof plugin.configurationIsValid !== 'function') {
+                console.error('start() and configurationIsValid() functions must be implemented for the plugin ' + pluginConfig['class']);
+              } else {
+                if (plugin.configurationIsValid(pluginConfig)) {
+                  plugin.start();
+                } else {
+                  console.error('The plugin ' + pluginConfig['class'] +' does not have a valid configuration');
+                }
+              }
             });
           }
         }

@@ -10,10 +10,24 @@ define(
        * Constructor
        */
       constructor(canvas, editorConfig, pluginConfig) {
-
         this.outputArea   = document.getElementById(pluginConfig.texareaId);
         this.canvas       = canvas;
         this.editorConfig = editorConfig;
+      }
+
+      /**
+       * Check if the configuration is valid
+       *
+       * @param pluginConfig
+       *
+       * @return boolean
+       */
+      configurationIsValid(pluginConfig) {
+         if (typeof pluginConfig.texareaId === 'undefined') {
+           return false;
+         }
+
+         return true;
       }
 
       /**

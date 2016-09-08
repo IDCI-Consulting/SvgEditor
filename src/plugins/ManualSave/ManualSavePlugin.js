@@ -21,6 +21,25 @@ define(
       }
 
       /**
+       * Check if the configuration is valid
+       *
+       * @param pluginConfig
+       *
+       * @return boolean
+       */
+      configurationIsValid(pluginConfig) {
+        if (typeof pluginConfig.saveButtonInputId === 'undefined') {
+          return false;
+        }
+
+        if (typeof pluginConfig.loadButtonInputId === 'undefined') {
+          return false;
+        }
+
+        return true;
+      }
+
+      /**
        * Start the plugin
        */
       start() {

@@ -18,6 +18,21 @@ define(
       }
 
       /**
+       * Check if the configuration is valid
+       *
+       * @param pluginConfig
+       *
+       * @return boolean
+       */
+      configurationIsValid(pluginConfig) {
+        if (typeof pluginConfig.fileInputId === 'undefined') {
+         return false;
+       }
+
+        return true;
+      }
+
+      /**
        * Start the plugin
        */
       start() {

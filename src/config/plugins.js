@@ -28,8 +28,8 @@ define(function () {
     }
     ,{
       "class": "plugins/ManualSave/ManualSavePlugin",
-      "loadButtonInputId" : "load-modal-button",
-      "saveButtonInputId" : "save-modal-button"
+      "loadButtonInputId": "load-modal-button",
+      "saveButtonInputId": "save-modal-button"
     }
   ];
 });

@@ -13,6 +13,19 @@ define(
         this.canvas = canvas;
       }
 
+
+      /**
+       * Check if the configuration is valid
+       *
+       * @param pluginConfig
+       *
+       * @return boolean
+       */
+      configurationIsValid(pluginConfig) {
+        // no additional configuration required
+        return true;
+      }
+
       /**
        * Start the plugin
        */

@@ -114,7 +114,7 @@ define(
         let project = this.serializer.serialize({
           'title': title,
           'canvas': this.canvas,
-          'date': this.getCurrentDate()
+          'date': getCurrentDate()
         });
         this.persistenceManager.persist(project, {key: title});
       }
@@ -242,17 +242,6 @@ define(
             </div>
           </div>
         `;
-      }
-
-      getCurrentDate() {
-        let currentDate = new Date();
-        let day = currentDate.getDate();
-        let month = currentDate.getMonth() + 1;
-        let year = currentDate.getFullYear();
-        let hours = currentDate.getHours();
-        let minutes = currentDate.getMinutes();
-
-        return day + "/" + month + "/" + year + ' ' + hours + 'h' + minutes;
       }
     }
   }

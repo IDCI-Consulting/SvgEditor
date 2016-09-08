@@ -15,10 +15,17 @@
     </head>
     <body>
         <input id="image-loader" type="file" name="picture"/></br>
+        <div id="image-container">
+          <img src="assets/svg/miaou.svg" width="50">
+          <img src="assets/svg/dance.svg" width="50">
+          <img src="assets/svg/vroum.svg" width="50">
+        </div>
         <input id="load-modal-button" type="button" name="load" value="load"/>
         <input id="save-modal-button" type="button" name="save" value="save"/></br>
         <input id="color-picker" class="jscolor" value="000000"></br>
-        <canvas id="canvas" width="300" height="300"></canvas>
+        <div id="canvas-container">
+          <canvas id="canvas" width="300" height="300"></canvas>
+        </div>
         <textarea id="svg-output-area" rows="15" cols="50"></textarea>
     </body>
 </html>

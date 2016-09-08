@@ -22,6 +22,11 @@ define(function () {
       "class": "plugins/KeyboardListener/KeyboardListenerPlugin"
     },
     {
+      "class": "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
+      "imageContainerId": "image-container",
+      "canvasContainerId": "canvas-container"
+    }
+    ,{
       "class": "plugins/ManualSave/ManualSavePlugin",
       "loadButtonInputId" : "load-modal-button",
       "saveButtonInputId" : "save-modal-button"

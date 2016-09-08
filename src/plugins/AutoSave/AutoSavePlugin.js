@@ -23,8 +23,8 @@ define(
        */
       start() {
         this.canvas.on('after:render', () => {
-            this.persistCanvas();
-          });
+          this.persistCanvas();
+        });
         this.loadCanvas();
       }
 

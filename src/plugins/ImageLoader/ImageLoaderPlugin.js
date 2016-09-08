@@ -29,7 +29,7 @@ define(
           let file = e.target.files[0];
           let imageReaderRegistry = new ImageReaderRegistry();
           let imageReader = imageReaderRegistry.guessImageReader(file.type);
-          let item = imageReader.getCanvasImage(file, (item) => {
+          imageReader.getCanvasImage(file, (item) => {
             this.canvas.centerObject(item);
             this.canvas.add(item);
           });

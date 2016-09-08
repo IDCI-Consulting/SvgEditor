@@ -14,19 +14,20 @@
         <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
     </head>
     <body>
-        <input id="image-loader" type="file" name="picture"/></br>
+        <input id="image-loader" type="file" name="picture"/></br></br>
         <span>Drag and drop the images below</span>
         <div id="image-container">
           <img src="assets/svg/miaou.svg" width="50">
           <img src="assets/svg/dance.svg" width="50">
           <img src="assets/svg/vroum.svg" width="50">
-        </div>
+        </div></br>
         <input id="load-modal-button" type="button" name="load" value="load a project"/>
-        <input id="save-modal-button" type="button" name="save" value="save a project"/></br>
-        <input id="color-picker" class="jscolor" value="000000"></br>
+        <input id="save-modal-button" type="button" name="save" value="save a project"/></br></br>
+        <span>Select an svg object and color it</span></br>
+        <input id="color-picker" class="jscolor" value="000000"></br></br>
         <div id="canvas-container">
           <canvas id="canvas" width="300" height="300"></canvas>
-        </div>
+        </div></br>
         <textarea id="svg-output-area" rows="15" cols="50"></textarea>
     </body>
 </html>

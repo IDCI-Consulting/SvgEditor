@@ -57,7 +57,8 @@ gulp.task('build', ['babel'], function () {
           "plugins/OutputArea/OutputAreaPlugin",
           "plugins/KeyboardListener/KeyboardListenerPlugin",
           "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
-          "plugins/ManualSave/ManualSavePlugin"
+          "plugins/ManualSave/ManualSavePlugin",
+          "plugins/ImageFlipper/ImageFlipperPlugin"
         ],
       }))
       .pipe(chown('www-data'))

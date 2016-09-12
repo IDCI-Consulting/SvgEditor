@@ -7,7 +7,9 @@ var scripts = 'src/**/*.js',
 var gulp       = require('gulp'),
     livereload = require('gulp-livereload'),
     babel      = require('gulp-babel'),
-    optimize   = require('gulp-requirejs-optimize');
+    optimize   = require('gulp-requirejs-optimize'),
+    chown      = require('gulp-chown'),
+    chmod      = require('gulp-chmod')
 ;
 
 // Task to watch files
@@ -26,6 +28,8 @@ gulp.task('babel', function() {
     .pipe(babel({
       presets: ['es2015']
     }))
+    .pipe(chown('www-data'))
+    .pipe(chmod(750))
     .pipe(gulp.dest('lib'))
   ;
 });
@@ -56,6 +60,8 @@ gulp.task('build', ['babel'], function () {
           "plugins/ManualSave/ManualSavePlugin"
         ],
       }))
+      .pipe(chown('www-data'))
+      .pipe(chmod(750))
       .pipe(gulp.dest('dist'))
     ;
 });

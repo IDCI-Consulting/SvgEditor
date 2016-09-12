@@ -6,7 +6,8 @@ var scripts = 'src/**/*.js',
 
 var gulp       = require('gulp'),
     livereload = require('gulp-livereload'),
-    babel      = require('gulp-babel')
+    babel      = require('gulp-babel'),
+    optimize   = require('gulp-requirejs-optimize');
 ;
 
 // Task to watch files
@@ -29,9 +30,33 @@ gulp.task('babel', function() {
   ;
 });
 
+// reload page after editing index.html
 gulp.task('views', function() {
     gulp
       .src(views)
       .pipe(livereload())
     ;
 });
+
+// task to build the project (one file output)
+gulp.task('build', ['babel'], function () {
+    gulp
+      .src('lib/init.js')
+      .pipe(optimize({
+        out:"svg-editor.min.js",
+        optimize: 'uglify2',
+        include: [
+          "init.js",
+          "plugins/AutoSave/AutoSavePlugin",
+          "plugins/ColorPicker/ColorPickerPlugin",
+          "plugins/ImageLoader/ImageLoaderPlugin",
+          "plugins/OutputArea/OutputAreaPlugin",
+          "plugins/KeyboardListener/KeyboardListenerPlugin",
+          "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
+          "plugins/ManualSave/ManualSavePlugin"
+        ],
+      }))
+      .pipe(gulp.dest('dist'))
+    ;
+});
+

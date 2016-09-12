@@ -13,19 +13,7 @@ You'll need either **docker** and **docker-compose**, or **node** and **npm** al
 Installation
 ------------
 
-### Build javascripts file with babel
-
-If you want to build files manually, run:
-
-```bash
-bower install
-npm install
-npm run build
-```
-
-### Use gulp
-
-If you want gulp to build the files automatically on file change then livereload the page, run:
+### On your own setup
 
 ```
 bower install
@@ -34,7 +22,7 @@ npm install --global gulp-cli
 gulp watch
 ```
 
-### Use docker
+### Dockerized
 
 The gulp watch command is always executed whenever not running.
 
@@ -43,6 +31,13 @@ docker-compose up -d
 docker exec -it svgeditorwidget_app_1 npm install
 docker exec -it svgeditorwidget_app_1 bower install --allow-root
 ```
+
+This will create a lib/ directory with scripts in it.
+
+### Build
+
+If you want a single minified file, run **gulp build**. It will create the dist/svg-editor.min.js file.
+If you want to add new plugins, edit the gulpfile at line 49 accordingly to tell the requirejs optimizer to include them.
 
 Basic editor
 ------------

@@ -83,6 +83,9 @@ define(
        * Function triggered on drop
        */
       handleDrop(event) {
+          if(event.preventDefault) {
+            event.preventDefault();
+          }
           if (event.stopPropagation) {
             event.stopPropagation(); // stops the browser from redirecting.
           }

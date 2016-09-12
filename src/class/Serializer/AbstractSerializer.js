@@ -10,7 +10,7 @@ define(function () {
      */
     constructor() {
 
-      if (new.target === AbstractSerializer) {
+      if (this.constructor === AbstractSerializer) {
         throw new TypeError("Cannot construct AbstractSerializer instances directly");
       }
 

@@ -10,7 +10,7 @@ define(function () {
      */
     constructor() {
 
-      if (new.target === AbstractImageReader) {
+      if (this.constructor === AbstractImageReader) {
         throw new TypeError("Cannot construct AbstractImageReader instances directly");
       }
 

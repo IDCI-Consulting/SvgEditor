@@ -10,7 +10,7 @@ define(function () {
      */
     constructor() {
 
-      if (new.target === AbstractFileDownloader) {
+      if (this.constructor === AbstractFileDownloader) {
         throw new TypeError("Cannot construct AbstractFileDownloader instances directly");
       }
 

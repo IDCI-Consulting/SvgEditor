@@ -10,7 +10,7 @@ define(function () {
      */
     constructor() {
 
-      if (new.target === AbstractPersistenceManager) {
+      if (this.constructor === AbstractPersistenceManager) {
         throw new TypeError("Cannot construct AbstractPersistenceManager instances directly");
       }
 

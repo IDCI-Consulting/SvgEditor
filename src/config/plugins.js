@@ -30,6 +30,11 @@ define(function () {
       "class": "plugins/ManualSave/ManualSavePlugin",
       "loadButtonInputId": "load-modal-button",
       "saveButtonInputId": "save-modal-button"
+    },
+    {
+      "class": "plugins/ImageFlipper/ImageFlipperPlugin",
+      "horizontalFlipInputId": "horizontalflip-modal-button",
+      "verticalFlipInputId": "verticalflip-modal-button"
     }
   ];
 });

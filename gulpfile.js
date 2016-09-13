@@ -51,6 +51,7 @@ gulp.task('build', ['babel'], function () {
         optimize: 'uglify2',
         include: [
           "init.js",
+          "utils.js",
           "plugins/AutoSave/AutoSavePlugin",
           "plugins/ColorPicker/ColorPickerPlugin",
           "plugins/ImageLoader/ImageLoaderPlugin",
@@ -59,7 +60,7 @@ gulp.task('build', ['babel'], function () {
           "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
           "plugins/ManualSave/ManualSavePlugin",
           "plugins/ImageFlipper/ImageFlipperPlugin"
-        ],
+        ]
       }))
       .pipe(chown('www-data'))
       .pipe(chmod(750))

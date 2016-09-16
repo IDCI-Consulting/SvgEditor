@@ -9,9 +9,9 @@ define({
   serializer: "json",
 
   // handles configuration
-  cornerShift: 'in', // middle, in or out
-  cornerSize: 5,
-  tiransparentCorners: false,
+  cornerShift: 'middle', // middle, in or out
+  cornerSize: 15,
+  transparentCorners: true,
   cornerColor: '#00D0AE',
   borderColor: '#00D0AE'
 });

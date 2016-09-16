@@ -55,8 +55,12 @@ define(
         }
 
         for (let i = 0, len = this.images.length; i < len; i++) {
+          // drag and drop for desktop
           this.images[i].addEventListener('dragstart', event => this.handleDragStart(event), false);
           this.images[i].addEventListener('dragend', event => this.handleDragEnd(event), false);
+
+          // mobile touch support
+          this.images[i].addEventListener("touchstart", event => this.handleTouchStart(event), false);
         }
 
         let canvasContainer = document.getElementById(this.canvasContainerId);
@@ -64,6 +68,49 @@ define(
         canvasContainer.addEventListener('dragover', event => this.handleDragOver(event), false);
         canvasContainer.addEventListener('dragleave', event => this.handleDragLeave(event), false);
         canvasContainer.addEventListener('drop', event => this.handleDrop(event), false);
+      }
+
+      /**
+       * Add an image to the canvas
+       *
+       * @param imageUrl
+       * @param callback
+       */
+      downloadImage(imageUrl, callback) {
+        this.fileDownloaderRegistry.guessFileDownloader('blob').downloadFile(imageUrl, (blob) => {
+          let filename = getFilename(imageUrl);
+          let file = null;
+
+          try {
+            file = new File([blob], filename);
+          } catch (e) {
+            // IE does not support the File constructor
+            blob.name = filename;
+            file = blob;
+          }
+
+          return callback(file);
+        });
+      }
+
+      /**
+       * Function triggered on touch start
+       *
+       * @param event
+       */
+      handleTouchStart(event) {
+        let imageUrl = event.target.currentSrc;
+        let fileMimeType = MimeTypeGuesser.guess(getExtension(imageUrl));
+        let imageReader = this.imageReaderRegistry.guessImageReader(fileMimeType);
+
+        // We can't read the file if it's not on the computer of the client
+        // We need to download it before so we can use our imageReader
+        this.downloadImage(imageUrl, (file) => {
+          imageReader.getCanvasImage(file, (item) => {
+            this.canvas.centerObject(item);
+            this.canvas.add(item);
+          });
+        });
       }
 
       /**
@@ -91,21 +138,12 @@ define(
           }
 
           let imageUrl = document.querySelector('#'+this.imageContainerId+' img.img_dragging').src;
+          let fileMimeType = MimeTypeGuesser.guess(getExtension(imageUrl));
+          let imageReader = this.imageReaderRegistry.guessImageReader(fileMimeType);
 
           // We can't read the file if it's not on the computer of the client
           // We need to download it before so we can use our imageReader
-          this.fileDownloaderRegistry.guessFileDownloader('blob').downloadFile(imageUrl, (blob) => {
-            let filename = getFilename(imageUrl);
-            let file = null;
-            let fileMimeType = MimeTypeGuesser.guess(getExtension(imageUrl));
-            let imageReader = this.imageReaderRegistry.guessImageReader(fileMimeType);
-            try {
-              file = new File([blob], filename);
-            } catch (e) {
-              // IE does not support the File constructor
-              blob.name = filename;
-              file = blob;
-            }
+          this.downloadImage(imageUrl, (file) => {
             imageReader.getCanvasImage(file, (item) => {
               item.left = event.layerX;
               item.top = event.layerY;

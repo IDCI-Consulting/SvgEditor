@@ -95,9 +95,17 @@ define(
           // We can't read the file if it's not on the computer of the client
           // We need to download it before so we can use our imageReader
           this.fileDownloaderRegistry.guessFileDownloader('blob').downloadFile(imageUrl, (blob) => {
-            let file = new File([blob], getFilename(imageUrl));
+            let filename = getFilename(imageUrl);
+            let file = null;
             let fileMimeType = MimeTypeGuesser.guess(getExtension(imageUrl));
             let imageReader = this.imageReaderRegistry.guessImageReader(fileMimeType);
+            try {
+              file = new File([blob], filename);
+            } catch (e) {
+              // IE does not support the File constructor
+              blob.name = filename;
+              file = blob;
+            }
             imageReader.getCanvasImage(file, (item) => {
               item.left = event.layerX;
               item.top = event.layerY;

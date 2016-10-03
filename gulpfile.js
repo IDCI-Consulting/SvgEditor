@@ -52,14 +52,15 @@ gulp.task('build', ['babel'], function () {
         include: [
           "init.js",
           "utils.js",
-          "plugins/AutoSave/AutoSavePlugin",
-          "plugins/ColorPicker/ColorPickerPlugin",
-          "plugins/ImageLoader/ImageLoaderPlugin",
-          "plugins/OutputArea/OutputAreaPlugin",
-          "plugins/KeyboardListener/KeyboardListenerPlugin",
-          "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
+          //"plugins/ImageFlipper/ImageFlipperPlugin",
+          //"plugins/ImageLoader/ImageLoaderPlugin",
           "plugins/ManualSave/ManualSavePlugin",
-          "plugins/ImageFlipper/ImageFlipperPlugin"
+          //"plugins/AutoSave/AutoSavePlugin",
+          "plugins/ObjectResizer/ObjectResizerPlugin",
+          "plugins/ColorPicker/ColorPickerPlugin",
+          //"plugins/OutputArea/OutputAreaPlugin",
+          "plugins/KeyboardListener/KeyboardListenerPlugin",
+          "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin"
         ]
       }))
       .pipe(chown('www-data'))

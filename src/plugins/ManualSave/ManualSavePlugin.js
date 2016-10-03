@@ -118,9 +118,14 @@ define(
        * Load a project from his title
        */
       loadProject(title) {
-        let project = this.persistenceManager.load({key: title});
-        let serializedCanvas = this.serializer.serialize(JSON.parse(project).canvas);
+        let project = JSON.parse(this.persistenceManager.load({key: title}));
+        let serializedCanvas = this.serializer.serialize(project.canvas);
+        let oldWidth = parseFloat(project["container-width"]);
+        let newWidth = parseFloat(getComputedStyle(document.getElementById('canvas-container')).width);
+
         this.serializer.deserialize(serializedCanvas, this.canvas, () => {
+          var ratio = newWidth / oldWidth;
+          this.canvas.trigger("canvas:deserialized", { "ratio": ratio }); // used by the ObjectResizer
           this.canvas.renderAll();
           $('#load-modal').modal('hide');
         });
@@ -130,11 +135,18 @@ define(
        * Save a project by title
        */
       saveProject(title) {
+        // get the canvas container width and height for resizing on load
+        var width = parseInt(getComputedStyle(document.getElementById('canvas-container')).width);
+        var height = parseInt(getComputedStyle(document.getElementById('canvas-container')).height);
+
         let project = this.serializer.serialize({
           'title': title,
           'canvas': this.canvas,
+          'container-width': width,
+          'container-height': height,
           'date': getCurrentDate()
         });
+
         this.persistenceManager.persist(project, {key: title});
       }
 

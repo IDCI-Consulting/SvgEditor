@@ -35,28 +35,51 @@ define(
        */
       start() {
         this.canvas.on('after:render', () => {
-          this.persistCanvas();
+          this.saveProject();
         });
-        this.loadCanvas();
+        this.loadProject();
       }
 
       /**
-       * Persist the canvas
+       * Persist the project
        */
-      persistCanvas() {
-        let serializedCanvas = this.serializer.serialize(this.canvas);
-        this.persistenceManager.persist(serializedCanvas, {key: 'autosave'});
+      saveProject() {
+
+        // get the canvas container width and height for resizing on load
+        var width = parseInt(getComputedStyle(document.getElementById('canvas-container')).width);
+        var height = parseInt(getComputedStyle(document.getElementById('canvas-container')).height);
+
+        let project = this.serializer.serialize({
+          'container-width': width,
+          'container-height': height,
+          'canvas': this.canvas
+        });
+
+        this.persistenceManager.persist(project, {key: 'autosave'});
       }
 
       /**
-       * Load canvas
+       * Load the project
        */
-      loadCanvas() {
-        let serializedCanvas = this.persistenceManager.load({key: 'autosave'});
-        if (serializedCanvas) {
-          this.serializer.deserialize(serializedCanvas, this.canvas, () => {
-            this.canvas.renderAll();
-          });
+      loadProject() {
+
+        let project = JSON.parse(this.persistenceManager.load({key: 'autosave'}));
+
+        if(project) {
+
+          let serializedCanvas = this.serializer.serialize(project.canvas);
+
+          // get the canvas container width and height for resizinganalytics
+          let oldWidth = parseFloat(project["container-width"]);
+          let newWidth = parseFloat(getComputedStyle(document.getElementById('canvas-container')).width);
+
+          if (serializedCanvas) {
+            this.serializer.deserialize(serializedCanvas, this.canvas, () => {
+              var ratio = newWidth / oldWidth;
+              this.canvas.trigger("canvas:deserialized", { "ratio": ratio }); // used by the ObjectResizer
+              this.canvas.renderAll();
+            });
+          }
         }
       }
     }

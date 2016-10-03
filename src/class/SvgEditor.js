@@ -27,6 +27,9 @@ define(
        * Load the plugins from the configuration (check the parameters then start the plugins)
        */
       loadPlugins(canvas, pluginsConfig, editorConfig) {
+
+        this.sortPluginsByPriority(pluginsConfig);
+
         for (let i=0; i < pluginsConfig.length; i++) {
           let pluginConfig = pluginsConfig[i];
           if (typeof pluginConfig['class'] === 'undefined') {
@@ -46,6 +49,30 @@ define(
             });
           }
         }
+      }
+
+      /**
+       * Sort the plugins in the config by priority
+       * The plugins wil be loaded according to their priority
+       *
+       * @param config
+       * @return config
+       */
+      sortPluginsByPriority(config) {
+        config.sort(function(a, b){
+          if (typeof a.priority !== 'number') {
+            a.priority = 9999;
+          }
+
+          if (typeof b.priority !== 'number') {
+            b.priority = 9999;
+          }
+
+          if(a.priority >  b.priority) return 1;
+          if(a.priority <  b.priority) return -1;
+
+          return 0;
+        });
       }
     }
   }

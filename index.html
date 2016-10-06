@@ -13,6 +13,24 @@
         <link rel="stylesheet" href="assets/bootstrap-modal/css/bootstrap.min.css">
         <script src="assets/bootstrap-modal/js/bootstrap.min.js"></script>
         <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
+        <script type="text/javascript">
+            var tmsSvgEditorConfig = {
+
+                // plugins configuration
+                enable_delete_object: true,
+                enable_textarea_edition: false,
+                display_textarea: true,
+                persistence_manager: "local_storage",
+                serializer: "json",
+
+                // handles configuration
+                corner_shift: 'middle', // middle, in or out
+                corner_size: 15,
+                transparent_corners: true,
+                corner_color: '#00D0AE',
+                border_color: '#00D0AE'
+            };
+        </script>
     </head>
     <body>
         <input id="image-loader" type="file" name="picture"/><br/><br/>

@@ -1,8 +1,7 @@
 /**
  * SvgEditor module
  */
-define(
-  function () {
+define(['./FabricOverrider'], function (FabricOverrider) {
 
     return class SvgEditor {
 
@@ -10,6 +9,8 @@ define(
        * Constructor
        */
       constructor(canvas, editorConfig, pluginsConfig) {
+        FabricOverrider.override(fabric, editorConfig);
+
         this.init(canvas);
         this.loadPlugins(canvas, pluginsConfig, editorConfig);
       }

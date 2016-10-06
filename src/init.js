@@ -1,9 +1,8 @@
-requirejs(['./class/SvgEditor', './class/FabricOverrider', './config/editor', './config/plugins'], function(SvgEditor, FabricOverrider, editorConfig, pluginsConfig) {
-  FabricOverrider.override(fabric, editorConfig);
+requirejs(['./class/SvgEditor', './config/plugins'], function(SvgEditor, pluginsConfig) {
 
-  var svgEditor = new SvgEditor(
+  let svgEditor = new SvgEditor(
     new fabric.Canvas('canvas'),
-    editorConfig,
+    tmsSvgEditorConfig,
     pluginsConfig
   );
 

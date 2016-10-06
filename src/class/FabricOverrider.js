@@ -10,10 +10,10 @@ define(function () {
      */
     static override(fabric, config) {
       fabric.Object.prototype.set({
-        transparentCorners: config.transparentCorners,
-        borderColor: config.borderColor,
-        cornerColor: config.cornerColor,
-        cornerSize: config.cornerSize,
+        transparentCorners: config.transparent_corners,
+        borderColor: config.border_color,
+        cornerColor: config.corner_color,
+        cornerSize: config.corner_size,
 
         /**
          * Draws corners of an object's bounding box.
@@ -25,12 +25,12 @@ define(function () {
          */
         drawControls: function(ctx) {
           let shift;
-          switch(config.cornerShift) {
+          switch(config.corner_shift) {
             case 'out':
-              shift = -config.cornerSize/2;
+              shift = -config.corner_size/2;
               break;
             case 'in':
-              shift = config.cornerSize/2;
+              shift = config.corner_size/2;
               break;
             default:
               shift = 0;
@@ -98,5 +98,4 @@ define(function () {
       });
     }
   }
-
 });

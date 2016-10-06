@@ -9,8 +9,9 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas) {
+      constructor(canvas, editorConfig) {
         this.canvas = canvas;
+        this.editorConfig = editorConfig;
       }
 
 
@@ -30,18 +31,19 @@ define(
        * Start the plugin
        */
       start() {
-
-        document.addEventListener("keydown", (event) => {
-           var keyId = event.keyCode;
-           // backspace -> 8
-           // delete    -> 46
-           if (keyId === 46) {
-             let element = this.canvas.getActiveObject();
-             if (element) {
-               element.remove();
-             }
-           }
-        });
+        if (this.editorConfig.enable_delete_object === true) {
+          document.addEventListener("keydown", (event) => {
+            var keyId = event.keyCode;
+            // backspace -> 8
+            // delete    -> 46
+            if (keyId === 46) {
+              let element = this.canvas.getActiveObject();
+              if (element) {
+                element.remove();
+              }
+            }
+          });
+        }
       }
 
       

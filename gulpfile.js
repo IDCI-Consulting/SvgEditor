@@ -52,13 +52,13 @@ gulp.task('build', ['babel'], function () {
         include: [
           "init.js",
           "utils.js",
-          //"plugins/ImageFlipper/ImageFlipperPlugin",
-          //"plugins/ImageLoader/ImageLoaderPlugin",
+          "plugins/ImageFlipper/ImageFlipperPlugin",
+          "plugins/ImageLoader/ImageLoaderPlugin",
           "plugins/ManualSave/ManualSavePlugin",
-          //"plugins/AutoSave/AutoSavePlugin",
+          "plugins/AutoSave/AutoSavePlugin",
           "plugins/ObjectResizer/ObjectResizerPlugin",
           "plugins/ColorPicker/ColorPickerPlugin",
-          //"plugins/OutputArea/OutputAreaPlugin",
+          "plugins/OutputArea/OutputAreaPlugin",
           "plugins/KeyboardListener/KeyboardListenerPlugin",
           "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin"
         ]

@@ -34,6 +34,10 @@ define(
        * Start the plugin
        */
       start() {
+        if (this.editorConfig.automatic_save === false) {
+          return;
+        }
+
         this.canvas.on('after:render', () => {
           this.saveProject();
         });

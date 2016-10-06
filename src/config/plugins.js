@@ -21,9 +21,9 @@ define(function () {
       "horizontalFlipInputId": "horizontalflip-modal-button",
       "verticalFlipInputId": "verticalflip-modal-button"
     },
-    //{
-    //  "class": "plugins/AutoSave/AutoSavePlugin"
-    //},
+    {
+      "class": "plugins/AutoSave/AutoSavePlugin"
+    },
     {
       "class": "plugins/ObjectResizer/ObjectResizerPlugin",
       "priority": 1

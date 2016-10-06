@@ -14,6 +14,7 @@ define(
        */
       constructor(canvas, editorConfig, pluginConfig) {
         this.canvas = canvas;
+        this.editorConfig = editorConfig;
         this.serializer = new SerializerRegistry().guessSerializer(editorConfig.serializer);
         this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(editorConfig.persistence_manager);
         this.loadButtonInputId = pluginConfig.loadButtonInputId;
@@ -43,12 +44,16 @@ define(
        * Start the plugin
        */
       start() {
+        if (this.editorConfig.manual_save === false) {
+          return;
+        }
+
         // add the modal to the dom on page ready
         $(document).ready(() => {
           $('body').append(this.getLoadModalHtmlContent());
           $('body').append(this.getSaveModalHtmlContent());
         })
-      
+
         // open the load modal
         document.getElementById(this.loadButtonInputId).onclick = (e) => {
           $('#load-modal').replaceWith(this.getLoadModalHtmlContent());
@@ -154,7 +159,7 @@ define(
        * Get the html content of the save modal
        */
       getSaveModalHtmlContent() {
-      
+
         // get an array with all stringified projects
         let projects = this.persistenceManager.load({});
 
@@ -170,7 +175,7 @@ define(
             let html = '<table>'
             for (let i = 0; i < len; i++) {
               let project = JSON.parse(projects[i]);
-              html += 
+              html +=
                 '<tr>' +
                   '<td>' + project.title + '</td>' +
                   '<td>' + project.date + '</td>' +
@@ -238,7 +243,7 @@ define(
             let html = '<table>'
             for (let i = 0; i < len; i++) {
               let project = JSON.parse(projects[i]);
-              html += 
+              html +=
                 '<tr>' +
                   '<td>' + project.title + '</td>' +
                   '<td>' + project.date + '</td>' +

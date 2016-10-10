@@ -4,22 +4,16 @@
 define(function () {
   return [
     {
-      "class": "plugins/ImageLoader/ImageLoaderPlugin",
-      "fileInputId": "image-loader"
+      "class": "plugins/ImageLoader/ImageLoaderPlugin"
     },
     {
-      "class": "plugins/OutputArea/OutputAreaPlugin",
-      "texareaId": "svg-output-area"
+      "class": "plugins/OutputArea/OutputAreaPlugin"
     },
     {
-      "class": "plugins/ManualSave/ManualSavePlugin",
-      "loadButtonInputId": "load-modal-button",
-      "saveButtonInputId": "save-modal-button"
+      "class": "plugins/ManualSave/ManualSavePlugin"
     },
     {
-      "class": "plugins/ImageFlipper/ImageFlipperPlugin",
-      "horizontalFlipInputId": "horizontalflip-modal-button",
-      "verticalFlipInputId": "verticalflip-modal-button"
+      "class": "plugins/ImageFlipper/ImageFlipperPlugin"
     },
     {
       "class": "plugins/AutoSave/AutoSavePlugin"
@@ -29,16 +23,13 @@ define(function () {
       "priority": 1
     },
     {
-      "class": "plugins/ColorPicker/ColorPickerPlugin",
-      "inputId": "color-picker"
+      "class": "plugins/ColorPicker/ColorPickerPlugin"
     },
     {
       "class": "plugins/KeyboardListener/KeyboardListenerPlugin"
     },
     {
-      "class": "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin",
-      "imageContainerId": "image-container",
-      "canvasContainerId": "canvas-container"
+      "class": "plugins/ImageDragAndDrop/ImageDragAndDropPlugin"
     }
   ];
 });

@@ -12,84 +12,108 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
+      constructor(canvas, config) {
         this.canvas = canvas;
-        this.editorConfig = editorConfig;
-        this.serializer = new SerializerRegistry().guessSerializer(editorConfig.serializer);
-        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(editorConfig.persistence_manager);
-        this.loadButtonInputId = pluginConfig.loadButtonInputId;
-        this.saveButtonInputId = pluginConfig.saveButtonInputId;
+        this.config = config;
+        this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
+        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        if (typeof pluginConfig.saveButtonInputId === 'undefined') {
-          return false;
+      getConfigurationErrors() {
+        let errors = [];
+
+        if (typeof this.config.manual_save === 'undefined') {
+          errors.push('manual_save must be defined');
+        } else {
+          if (typeof this.config.manual_save.enable !== 'boolean') {
+            errors.push('manual_save.enable must be defined as a boolean');
+          } else {
+            if (this.config.manual_save.enable === true) {
+
+              if (typeof this.config.manual_save.load_button_input_id !== 'string') {
+                errors.push('manual_save.load_button_input_id must be defined (as a string) because the plugin is enabled');
+              } else {
+                if (document.getElementById(this.config.manual_save.load_button_input_id) === null) {
+                  errors.push('No tag with id ' + this.config.manual_save.load_button_input_id + ' found');
+                }
+              }
+
+              if (typeof this.config.manual_save.save_button_input_d !== 'string') {
+                errors.push('manual_save.save_button_input_d must be defined (as a string) because the plugin is enabled');
+              } else {
+                if (document.getElementById(this.config.manual_save.save_button_input_d) === null) {
+                  errors.push('No tag with id ' + this.config.manual_save.save_button_input_d + ' found');
+                }
+              }
+
+             /* if (typeof this.config.manual_save.save_label === 'undefined') {
+                errors.push('manual_save.save_label must be defined (as a string) because the plugin is enabled');
+              }
+
+              if (typeof this.config.manual_save.load_label === 'undefined') {
+                errors.push('manual_save.load_label must be defined (as a string) because the plugin is enabled');
+              }*/
+            }
+          }
         }
 
-        if (typeof pluginConfig.loadButtonInputId === 'undefined') {
-          return false;
-        }
-
-        return true;
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        if (this.editorConfig.manual_save === false) {
-          return;
-        }
+        if (this.config.manual_save.enable === true) {
+          // add the modal to the dom on page ready
+          $(document).ready(() => {
+            $('body').append(this.getLoadModalHtmlContent());
+            $('body').append(this.getSaveModalHtmlContent());
+          })
 
-        // add the modal to the dom on page ready
-        $(document).ready(() => {
-          $('body').append(this.getLoadModalHtmlContent());
-          $('body').append(this.getSaveModalHtmlContent());
-        })
+          // open the load modal
+          document.getElementById(this.config.manual_save.load_button_input_id).onclick = (e) => {
 
-        // open the load modal
-        document.getElementById(this.loadButtonInputId).onclick = (e) => {
-          $('#load-modal').replaceWith(this.getLoadModalHtmlContent());
-          $('#load-modal').modal('show');
-        }
+            $('#load-modal').replaceWith(this.getLoadModalHtmlContent());
+            $('#load-modal').modal('show');
+          }
 
-        // open the save modal
-        document.getElementById(this.saveButtonInputId).onclick = (e) => {
-          $('#save-modal').replaceWith(this.getSaveModalHtmlContent());
-          $('#save-modal').modal('show');
-        }
+          // open the save modal
+          document.getElementById(this.config.manual_save.save_button_input_d).onclick = (e) => {
+            $('#save-modal').replaceWith(this.getSaveModalHtmlContent());
+            $('#save-modal').modal('show');
+          }
 
-        // save as a new project
-        $(document).on('click', '#new-save-button', event => {
-          let title = document.getElementById('new-project-title').value;
-          let error = this.getError(title);
-          if (!error) {
+          // save as a new project
+          $(document).on('click', '#new-save-button', event => {
+            let title = document.getElementById('new-project-title').value;
+            let error = this.getError(title);
+            if (!error) {
+              this.saveProject(title);
+              $('#save-modal').modal('hide');
+            } else {
+              this.printError(error);
+            }
+          });
+
+          // override a saved project
+          $(document).on('click', '.override-save-button', event => {
+            let title = $(event.target).data('project');
             this.saveProject(title);
             $('#save-modal').modal('hide');
-          } else {
-            this.printError(error);
-          }
-        });
+          });
 
-        // override a saved project
-        $(document).on('click', '.override-save-button', event => {
-          let title = $(event.target).data('project');
-          this.saveProject(title);
-          $('#save-modal').modal('hide');
-        });
-
-        // load a project
-        $(document).on('click', '.load-button', event => {
-          let title = $(event.target).data('project');
-          this.loadProject(title);
-        });
+          // load a project
+          $(document).on('click', '.load-button', event => {
+            let title = $(event.target).data('project');
+            this.loadProject(title);
+          });
+        }
       }
 
       /**
@@ -116,7 +140,7 @@ define(
        * Print errors on the modal
        */
       printError(error) {
-        $('span.error').replaceWith('<span class="error">'+error+'</span>');
+        $('span.error').replaceWith('<span class="error">' + error + '</span>');
       }
 
       /**
@@ -130,7 +154,7 @@ define(
 
         this.serializer.deserialize(serializedCanvas, this.canvas, () => {
           var ratio = newWidth / oldWidth;
-          this.canvas.trigger("canvas:deserialized", { "ratio": ratio }); // used by the ObjectResizer
+          this.canvas.trigger("canvas:deserialized", {"ratio": ratio}); // used by the ObjectResizer
           this.canvas.renderAll();
           $('#load-modal').modal('hide');
         });
@@ -159,7 +183,7 @@ define(
        * Get the html content of the save modal
        */
       getSaveModalHtmlContent() {
-
+        let config = this.config;
         // get an array with all stringified projects
         let projects = this.persistenceManager.load({});
 
@@ -170,26 +194,34 @@ define(
          */
         function saveModalHTML(templateData) {
           let string = templateData[0];
+          let labels = config.manual_save.labels;
+
           let len = projects.length;
           if (len > 0) {
-            let html = '<table>'
+            let html = '<table>';
             for (let i = 0; i < len; i++) {
               let project = JSON.parse(projects[i]);
               html +=
                 '<tr>' +
-                  '<td>' + project.title + '</td>' +
-                  '<td>' + project.date + '</td>' +
-                  '<td><button type="button" class="override-save-button btn btn-default" data-project="' + project.title + '">Save</button></td>' +
+                '<td>' + project.title + '</td>' +
+                '<td>' + project.date + '</td>' +
+                '<td><button type="button" class="override-save-button btn btn-default" data-project="' + project.title + '">' +
+                  config.manual_save.labels.save +
+                '</button></td>' +
                 '</tr>'
               ;
             }
             html += '</table>';
-            string = string.replace('No project already saved', html);
-
-            return string;
-          } else {
-            return string;
+            string = string.replace('{{ no_save }}', html);
           }
+
+          for (let label in labels) {
+            if (labels.hasOwnProperty(label)) {
+              string = string.replace('{{ ' + label + ' }}', labels[label]);
+            }
+          }
+
+          return string;
         }
 
         return saveModalHTML`
@@ -198,23 +230,23 @@ define(
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Save your project</h4>
+                  <h4 class="modal-title">{{ save_this_project }}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="save-list">
-                      <strong>Override a save</strong></br>
-                      No project already saved
+                      <strong>{{ override_save }}</strong></br>
+                      {{ no_save_already }}
                     </div>
                     </br>
                     <div class="new-save-block">
-                      <strong>New save</strong></br>
-                      <input id="new-project-title" type="text" placeholder="Your title goes here.."/>
-                      <button id="new-save-button" type="button" class="btn btn-primary">Save</button>
+                      <strong>{{ new_save }}</strong></br>
+                      <input id="new-project-title" type="text" placeholder="{{ new_save_placeholder }}"/>
+                      <button id="new-save-button" type="button" class="btn btn-primary">{{ save }}</button>
                       <span class="error"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">{{ close }}</button>
                 </div>
               </div>
             </div>
@@ -226,9 +258,10 @@ define(
        * Get the html content of the load modal
        */
       getLoadModalHtmlContent() {
-
+        let config = this.config;
         // get an array with all stringified projects
         let projects = this.persistenceManager.load({});
+        let labels = config.manual_save.labels;
 
         /**
          * Template string for the load modal (ES6 feature)
@@ -245,19 +278,25 @@ define(
               let project = JSON.parse(projects[i]);
               html +=
                 '<tr>' +
-                  '<td>' + project.title + '</td>' +
-                  '<td>' + project.date + '</td>' +
-                  '<td><button type="button" class="load-button btn btn-default" data-project="' + project.title + '">Open</button></td>' +
+                '<td>' + project.title + '</td>' +
+                '<td>' + project.date + '</td>' +
+                '<td><button type="button" class="load-button btn btn-default" data-project="' + project.title + '">' +
+                config.manual_save.labels.load +
+                '</button></td>' +
                 '</tr>'
               ;
             }
             html += '</table>';
-            string = string.replace('No projects to load', html);
-
-            return string;
-          } else {
-            return string;
+            string = string.replace('{{ nothing_to_load }}', html);
           }
+
+          for (let label in labels) {
+            if (labels.hasOwnProperty(label)) {
+              string = string.replace('{{ ' + label + ' }}', labels[label]);
+            }
+          }
+
+          return string;
         }
 
         return loadModalHTML`
@@ -266,13 +305,13 @@ define(
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Load a project</h4>
+                  <h4 class="modal-title">{{ load_project }}</h4>
                 </div>
                 <div class="modal-body">
-                  No projects to load
+                  {{ nothing_to_load }}
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">{{ close }}</button>
                 </div>
               </div>
             </div>

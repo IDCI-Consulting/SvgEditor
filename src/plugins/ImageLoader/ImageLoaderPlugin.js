@@ -12,24 +12,41 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
-        this.imageInput = document.getElementById(pluginConfig.fileInputId);
-        this.canvas     = canvas;
+      constructor(canvas, config) {
+        this.config = config;
+        this.canvas = canvas;
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        if (typeof pluginConfig.fileInputId === 'undefined') {
-         return false;
-       }
+      getConfigurationErrors() {
+        let errors = [];
 
-        return true;
+        if (typeof this.config.image_loader === 'undefined') {
+          errors.push('image_loader must be defined');
+        } else {
+          if (typeof this.config.image_loader.enable !== 'boolean') {
+            errors.push('image_loader.enable must be defined as a boolean');
+          } else {
+            if (this.config.image_loader.enable === true) {
+              if (typeof this.config.image_loader.file_input_id !== 'string') {
+                errors.push('image_loader.file_input_id must be defined (as a string) because the plugin is enabled');
+              } else {
+                if (document.getElementById(this.config.image_loader.file_input_id) === null) {
+                  errors.push('No tag with id ' + this.config.image_loader.file_input_id + ' found');
+                } else {
+                  this.imageInput = document.getElementById(this.config.image_loader.file_input_id);
+                }
+              }
+
+            }
+          }
+        }
+
+        return errors;
       }
 
       /**

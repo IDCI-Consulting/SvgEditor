@@ -12,36 +12,57 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
-        this.colorPicker = document.getElementById(pluginConfig.inputId);
-        this.canvas      = canvas;
+      constructor(canvas, config) {
+
+        this.canvas = canvas;
+        this.config = config;
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        if (typeof pluginConfig.inputId === 'undefined') {
-         return false;
-       }
+      getConfigurationErrors() {
+        let errors = [];
 
-        return true;
+        if (typeof this.config.color_picker === 'undefined') {
+          errors.push('color_picker must be defined');
+        } else {
+          if (typeof this.config.color_picker.enable !== 'boolean') {
+            errors.push('color_picker.enable must be defined as a boolean');
+          } else {
+            if (this.config.color_picker.enable === true) {
+              if (typeof this.config.color_picker.input_id !== 'string') {
+                errors.push('color_picker.input_id must be defined (as a string) because the plugin is enabled');
+              } else {
+                if (document.getElementById(this.config.color_picker.input_id) === null) {
+                  errors.push('No tag with id ' + this.config.color_picker.input_id + ' found');
+                } else {
+
+                  this.colorPicker = document.getElementById(this.config.color_picker.input_id);
+                }
+              }
+
+            }
+          }
+        }
+
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        this.colorPicker.onchange = (e) => {
-          let element = this.canvas.getActiveObject();
-          if (element) {
-            let color = '#' + e.target.value;
-            SvgColorator.color(element, color);
-            this.canvas.renderAll();
+        if (this.config.color_picker.enable === true) {
+          this.colorPicker.onchange = (e) => {
+            let element = this.canvas.getActiveObject();
+            if (element) {
+              let color = '#' + e.target.value;
+              SvgColorator.color(element, color);
+              this.canvas.renderAll();
+            }
           }
         }
       }

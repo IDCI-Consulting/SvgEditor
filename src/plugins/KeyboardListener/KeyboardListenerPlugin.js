@@ -9,29 +9,35 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig) {
+      constructor(canvas, config) {
         this.canvas = canvas;
-        this.editorConfig = editorConfig;
+        this.config = config;
       }
 
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        // no additional configuration required
-        return true;
+      getConfigurationErrors() {
+        let errors = [];
+        if (typeof this.config.keyboard_listener === 'undefined') {
+          errors.push('keyboard_listener must be defined');
+        } else {
+          if (typeof this.config.keyboard_listener.enable_delete_object !== 'boolean') {
+            errors.push('keyboard_listener.enable_delete_object must be defined as a boolean');
+          }
+        }
+
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        if (this.editorConfig.enable_delete_object === true) {
+        if (this.config.keyboard_listener.enable_delete_object === true) {
           document.addEventListener("keydown", (event) => {
             var keyId = event.keyCode;
             // backspace -> 8

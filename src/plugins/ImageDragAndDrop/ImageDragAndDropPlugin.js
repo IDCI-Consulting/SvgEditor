@@ -16,58 +16,70 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
+      constructor(canvas, config) {
         this.imageReaderRegistry    = new ImageReaderRegistry();
         this.fileDownloaderRegistry = new FileDownloaderRegistry();
-        this.imageContainerId       = pluginConfig.imageContainerId;
-        this.canvasContainerId      = pluginConfig.canvasContainerId;
         this.canvas                 = canvas;
-        this.images                 = document.querySelectorAll('#'+this.imageContainerId+' img');
+        this.config                 = config;
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        if (typeof pluginConfig.imageContainerId === 'undefined') {
-          return false;
+      getConfigurationErrors() {
+        let errors = [];
+
+        if (typeof this.config.image_drag_and_drop === 'undefined') {
+          errors.push('image_drag_and_drop must be defined');
+        } else {
+          if (typeof this.config.image_drag_and_drop.enable !== 'boolean') {
+            errors.push('image_drag_and_drop.enable must be defined as a boolean');
+          } else {
+            if (this.config.image_drag_and_drop.enable === true) {
+              if (typeof this.config.image_drag_and_drop.image_container_id !== 'string') {
+                errors.push('image_drag_and_drop.image_container_id must be defined (as a string) because the plugin is enabled');
+              } else {
+                if (document.getElementById(this.config.image_drag_and_drop.image_container_id) === null) {
+                  errors.push('No tag with id ' + this.config.image_drag_and_drop.image_container_id + ' found');
+                } else {
+                  this.images = document.querySelectorAll('#'+this.config.image_drag_and_drop.image_container_id+' img');
+                }
+              }
+            }
+          }
         }
 
-        if (typeof pluginConfig.canvasContainerId === 'undefined') {
-          return false;
-        }
-
-        return true;
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        // drag and drop html5 detection
-        if(!('draggable' in document.createElement('span'))) {
-          console.error('HTML5 Drag and drop is not supported by your browser');
-          return;
+        if (this.config.image_drag_and_drop.enable === true) {
+          // drag and drop html5 detection
+          if (!('draggable' in document.createElement('span'))) {
+            console.error('HTML5 Drag and drop is not supported by your browser');
+            return;
+          }
+
+          for (let i = 0, len = this.images.length; i < len; i++) {
+            // drag and drop for desktop
+            this.images[i].addEventListener('dragstart', event => this.handleDragStart(event), false);
+            this.images[i].addEventListener('dragend', event => this.handleDragEnd(event), false);
+
+            // mobile touch support
+            this.images[i].addEventListener('touchstart', event => this.handleTouchStart(event), false);
+          }
+
+          let canvasContainer = document.getElementById(this.config.canvas_container_id);
+          canvasContainer.addEventListener('dragenter', event => this.handleDragEnter(event), false);
+          canvasContainer.addEventListener('dragover', event => this.handleDragOver(event), false);
+          canvasContainer.addEventListener('dragleave', event => this.handleDragLeave(event), false);
+          canvasContainer.addEventListener('drop', event => this.handleDrop(event), false);
         }
-
-        for (let i = 0, len = this.images.length; i < len; i++) {
-          // drag and drop for desktop
-          this.images[i].addEventListener('dragstart', event => this.handleDragStart(event), false);
-          this.images[i].addEventListener('dragend', event => this.handleDragEnd(event), false);
-
-          // mobile touch support
-          this.images[i].addEventListener("touchstart", event => this.handleTouchStart(event), false);
-        }
-
-        let canvasContainer = document.getElementById(this.canvasContainerId);
-        canvasContainer.addEventListener('dragenter', event => this.handleDragEnter(event), false);
-        canvasContainer.addEventListener('dragover', event => this.handleDragOver(event), false);
-        canvasContainer.addEventListener('dragleave', event => this.handleDragLeave(event), false);
-        canvasContainer.addEventListener('drop', event => this.handleDrop(event), false);
       }
 
       /**
@@ -137,7 +149,7 @@ define(
             event.stopPropagation(); // stops the browser from redirecting.
           }
 
-          let imageUrl = document.querySelector('#'+this.imageContainerId+' img.img_dragging').src;
+          let imageUrl = document.querySelector('#'+this.config.image_drag_and_drop.image_container_id+' img.img_dragging').src;
           let fileMimeType = MimeTypeGuesser.guess(getExtension(imageUrl));
           let imageReader = this.imageReaderRegistry.guessImageReader(fileMimeType);
 

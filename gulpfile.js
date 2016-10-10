@@ -1,6 +1,11 @@
 'use strict';
 
-var scripts = 'src/**/*.js',
+var scripts =
+    [
+        'bower_components/fabric.js/dist/fabric.js',
+        'assets/jscolor.min.js',
+        'dist/svg-editor.min.js'
+    ],
     views   = 'index.html'
 ;
 
@@ -9,7 +14,9 @@ var gulp       = require('gulp'),
     babel      = require('gulp-babel'),
     optimize   = require('gulp-requirejs-optimize'),
     chown      = require('gulp-chown'),
-    chmod      = require('gulp-chmod')
+    chmod      = require('gulp-chmod'),
+    concat     = require('gulp-concat'),
+    uglify     = require('gulp-uglify')
 ;
 
 // Task to watch files
@@ -60,12 +67,22 @@ gulp.task('build', ['babel'], function () {
           "plugins/ColorPicker/ColorPickerPlugin",
           "plugins/OutputArea/OutputAreaPlugin",
           "plugins/KeyboardListener/KeyboardListenerPlugin",
-          "plugins/ImageDragAndDropper/ImageDragAndDropperPlugin"
+          "plugins/ImageDragAndDropper/ImageDragAndDropPlugin"
         ]
       }))
       .pipe(chown('www-data'))
       .pipe(chmod(750))
       .pipe(gulp.dest('dist'))
+    ;
+});
+
+// task to concat all files
+gulp.task('concat', ['build'], function () {
+    gulp.src(scripts)
+        .pipe(uglify())
+        .pipe(concat({ path: 'svg-editor-all.min.js'}))
+        .pipe(chmod(775))
+        .pipe(gulp.dest('dist'))
     ;
 });
 

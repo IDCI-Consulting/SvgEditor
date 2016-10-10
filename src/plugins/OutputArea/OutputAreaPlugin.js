@@ -9,47 +9,57 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
-        this.outputArea   = document.getElementById(pluginConfig.texareaId);
-        this.canvas       = canvas;
-        this.editorConfig = editorConfig;
+      constructor(canvas, config) {
+        this.canvas = canvas;
+        this.config = config;
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-         if (typeof pluginConfig.texareaId === 'undefined') {
-           return false;
-         }
+      getConfigurationErrors() {
+        let errors = [];
 
-         return true;
+        if (
+          typeof this.config.output_area === 'undefined' ||
+          typeof this.config.output_area.enable !== 'boolean'
+        ) {
+          errors.push('output_area.enable must be defined');
+        }
+
+        if (this.config.output_area.enable === true) {
+          if (typeof this.config.output_area.texarea_id !== 'string') {
+            errors.push('output_area.texarea_id must be defined because the plugin is enabled');
+          } else {
+            this.outputArea = document.getElementById(this.config.output_area.texarea_id);
+            if (this.outputArea === null) {
+              errors.push('No tag with id '+ this.config.output_area.texarea_id +' found');
+            }
+          }
+        }
+
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
+        if (this.config.output_area.enable === true) {
+          this.canvas.on('after:render', () => {
+            this.fillOutput();
+          });
 
-        this.canvas.on('after:render', () => {
           this.fillOutput();
-        });
 
-          this.fillOutput();
+          if (true !== this.config.enable_textarea_edition) {
+            this.outputArea.readOnly = true;
+          }
 
-        if (true !== this.editorConfig.display_textarea) {
-          this.outputArea.style.display = "none";
+          this.startOutputAreaListener();
         }
-
-        if (true !== this.editorConfig.enable_textarea_edition) {
-          this.outputArea.readOnly = true;
-        }
-
-        this.startOutputAreaListener();
       }
 
       /**

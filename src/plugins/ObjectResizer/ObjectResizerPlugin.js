@@ -15,12 +15,10 @@ define(
       /**
        * Check if the configuration is valid
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        return true;
+      getConfigurationErrors() {
+        return [];
       }
 
       /**
@@ -34,8 +32,8 @@ define(
               let object = objects[i];
               object.scaleX = event.ratio * object.scaleX;
               object.scaleY = event.ratio * object.scaleY;
-              object.top = event.ratio * object.top;
-              object.left = event.ratio * object.left;
+              object.top    = event.ratio * object.top;
+              object.left   = event.ratio * object.left;
             }
           }
         });

@@ -12,36 +12,42 @@ define(
       /**
        * Constructor
        */
-      constructor(canvas, editorConfig, pluginConfig) {
+      constructor(canvas, config) {
+        this.config = config;
         this.canvas = canvas;
-        this.serializer = new SerializerRegistry().guessSerializer(editorConfig.serializer);
-        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(editorConfig.persistence_manager);
+        this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
+        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
       }
 
       /**
-       * Check if the configuration is valid
+       * Get the configuration errors
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        // no additional configuration required
-        return true;
+      getConfigurationErrors() {
+        let errors = [];
+
+        if (typeof this.config.auto_save === 'undefined') {
+          errors.push('auto_save must be defined');
+        } else {
+          if (typeof this.config.auto_save.enable !== 'boolean') {
+            errors.push('auto_save.enable must be defined as a boolean');
+          }
+        }
+
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        if (this.editorConfig.automatic_save === false) {
-          return;
+        if (this.config.auto_save === true) {
+          this.canvas.on('after:render', () => {
+            this.saveProject();
+          });
+          this.loadProject();
         }
-
-        this.canvas.on('after:render', () => {
-          this.saveProject();
-        });
-        this.loadProject();
       }
 
       /**

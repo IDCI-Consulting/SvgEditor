@@ -77,7 +77,7 @@ gulp.task('build', ['babel'], function () {
 });
 
 // task to concat all files
-gulp.task('concat', ['build'], function () {
+gulp.task('build-all', ['build'], function () {
     gulp.src(scripts)
         .pipe(uglify())
         .pipe(concat({ path: 'svg-editor-all.min.js'}))

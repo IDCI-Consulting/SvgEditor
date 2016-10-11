@@ -1,7 +1,7 @@
 Svg editor widget
 =================
 
-A simple editor widget to create svg.
+A simple editor widget to create svg composed images.
 This editor is based on fabricjs.
 It is only composed of a canvas with plugins adding new features on it.
 
@@ -84,36 +84,43 @@ define(
        * @param editorConfig : the configuration from the config/editor.js file
        * @param pluginConfig : the configuration from the config/plugin.js file
        */
-      constructor(canvas, editorConfig, pluginConfig) {
+      constructor(canvas, editorConfig) {
         this.canvas = canvas;
-        this.editorConfig = editorConfig;
-        this.pluginConfig = pluginConfig;
+        this.config = editorConfig;
       }
 
-
       /**
-       * Check if the configuration is Valid
+       * Get the configuration errors
+       * this function is used to check if the configuration is valid before the start() function is ran
        *
-       * @param pluginConfig
-       *
-       * @return boolean
+       * @return array
        */
-      configurationIsValid(pluginConfig) {
-        // check everything you want here
+      getConfigurationErrors() {
+        let errors = [];
 
-        if (typeof pluginConfig.parameter1 === 'undefined') {
-          return false;
+        if (typeof this.config.plugin_name === 'undefined') {
+          errors.push('plugin_name must be defined');
+        } else {
+          if (this.config.image_loader.enable !== 'boolean') {
+            errors.push('plugin_name.enable must be defined as a boolean');
+          } else {
+            if (this.config.image_loader.enable === true) {
+             ... //additional configuration
+            }
+          }
         }
 
-        return true;
+        return errors;
       }
 
       /**
        * Start the plugin
        */
       start() {
-        // Your magic goes here.
-        // With the editor configuration, the plugin configuration and the canvas, do whatever you want to add features on the canvas
+        if (this.config.image_loader.enable === true) {
+            // Your magic goes here.
+            // With the configuration and the canvas, do whatever you want to add features on the canvas
+        }
       }
     }
   }
@@ -131,8 +138,10 @@ define(function () {
     ... // other plugins
     ,{
       "class": "path/to/your/plugin/MyAwesomePlugin",
-      "parameter1" : "value1"
+      "priority" : "3" // optional
     }
   ];
 });
 ```
+
+Remember to add it also int the gulp file for the requirejs optimize task.

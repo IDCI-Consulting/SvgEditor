@@ -67,7 +67,7 @@ gulp.task('build', ['babel'], function () {
           "plugins/ColorPicker/ColorPickerPlugin",
           "plugins/OutputArea/OutputAreaPlugin",
           "plugins/KeyboardListener/KeyboardListenerPlugin",
-          "plugins/ImageDragAndDropper/ImageDragAndDropPlugin"
+          "plugins/ImageDragAndDrop/ImageDragAndDropPlugin"
         ]
       }))
       .pipe(chown('www-data'))

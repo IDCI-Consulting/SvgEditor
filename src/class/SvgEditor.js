@@ -73,7 +73,7 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
       let configurationVariableName = script.getAttribute('data-configuration-variable');
       let editorConfig = window[configurationVariableName];
       if (typeof editorConfig === 'undefined') {
-        console.error('The variable ' + configurationVariableName + 'is not accessible');
+        console.error('The variable ' + configurationVariableName + ' is not accessible');
         return null;
       }
 

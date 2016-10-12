@@ -153,7 +153,7 @@ define(
         let newWidth = parseFloat(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
 
         this.serializer.deserialize(serializedCanvas, this.canvas, () => {
-          var ratio = newWidth / oldWidth;
+          let ratio = newWidth / oldWidth;
           this.canvas.trigger("canvas:deserialized", {"ratio": ratio}); // used by the ObjectResizer
           this.canvas.renderAll();
           $('#load-modal').modal('hide');
@@ -165,8 +165,8 @@ define(
        */
       saveProject(title) {
         // get the canvas container width and height for resizing on load
-        var width = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
-        var height = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).height);
+        let width = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
+        let height = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).height);
 
         let project = this.serializer.serialize({
           'title': title,

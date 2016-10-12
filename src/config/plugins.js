@@ -16,6 +16,12 @@ define(function () {
       "class": "plugins/ImageFlipper/ImageFlipperPlugin"
     },
     {
+      "class": "plugins/AutoImageResizer/AutoImageResizerPlugin"
+    },
+    {
+      "class": "plugins/RemoveObject/RemoveObjectPlugin"
+    },
+    {
       "class": "plugins/AutoSave/AutoSavePlugin"
     },
     {

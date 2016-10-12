@@ -67,7 +67,9 @@ gulp.task('build', ['babel'], function () {
           "plugins/ColorPicker/ColorPickerPlugin",
           "plugins/OutputArea/OutputAreaPlugin",
           "plugins/KeyboardListener/KeyboardListenerPlugin",
-          "plugins/ImageDragAndDrop/ImageDragAndDropPlugin"
+          "plugins/ImageDragAndDrop/ImageDragAndDropPlugin",
+          "plugins/AutoImageResizer/AutoImageResizerPlugin",
+          "plugins/RemoveObject/RemoveObjectPlugin"
         ]
       }))
       .pipe(chown('www-data'))
@@ -85,4 +87,3 @@ gulp.task('build-all', ['build'], function () {
         .pipe(gulp.dest('dist'))
     ;
 });
-

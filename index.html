@@ -29,6 +29,13 @@
                 'auto_save': {
                     'enable': false
                 },
+                'auto_image_resizer': {
+                    'enable': true
+                },
+                'remove_object': {
+                    'enable': true,
+                    'input_id': 'remove-object'
+                },
                 'color_picker': {
                     'enable': true,
                     'input_id': 'color-picker'
@@ -74,9 +81,26 @@
                 }
             };
         </script>
-        <script data-main="src/init" data-configuration-variable="idciSvgEditorConfig" src="bower_components/requirejs/require.js"></script>
+        <script
+            data-main="src/init"
+            data-configuration-variable="idciSvgEditorConfig"
+            data-editor-ready-function="editorReady"
+            src="bower_components/requirejs/require.js">
+        </script>
+        <script type="text/javascript">
+            function editorReady(canvas) {
+                canvas.on('object:selected', function() {
+                    //console.log("selected");
+                });
+
+                canvas.on('selection:cleared', function() {
+                    //console.log('cleared');
+                });
+            }
+        </script>
     </head>
     <body>
+        <input type="button" value="delete" id="remove-object"><br/><br/>
         <input id="image-loader" type="file" name="picture"/><br/><br/>
         <span>Drag and drop the images below</span>
         <div id="image-container">

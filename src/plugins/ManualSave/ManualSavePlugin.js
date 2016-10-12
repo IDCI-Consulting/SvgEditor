@@ -150,7 +150,7 @@ define(
         let project = JSON.parse(this.persistenceManager.load({key: title}));
         let serializedCanvas = this.serializer.serialize(project.canvas);
         let oldWidth = parseFloat(project["container-width"]);
-        let newWidth = parseFloat(getComputedStyle(document.getElementById('canvas-container')).width);
+        let newWidth = parseFloat(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
 
         this.serializer.deserialize(serializedCanvas, this.canvas, () => {
           var ratio = newWidth / oldWidth;
@@ -165,8 +165,8 @@ define(
        */
       saveProject(title) {
         // get the canvas container width and height for resizing on load
-        var width = parseInt(getComputedStyle(document.getElementById('canvas-container')).width);
-        var height = parseInt(getComputedStyle(document.getElementById('canvas-container')).height);
+        var width = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
+        var height = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).height);
 
         let project = this.serializer.serialize({
           'title': title,
@@ -195,7 +195,6 @@ define(
         function saveModalHTML(templateData) {
           let string = templateData[0];
           let labels = config.manual_save.labels;
-
           let len = projects.length;
           if (len > 0) {
             let html = '<table>';
@@ -212,7 +211,7 @@ define(
               ;
             }
             html += '</table>';
-            string = string.replace('{{ no_save }}', html);
+            string = string.replace('{{ no_save_already }}', html);
           }
 
           for (let label in labels) {

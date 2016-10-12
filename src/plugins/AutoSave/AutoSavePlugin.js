@@ -56,8 +56,8 @@ define(
       saveProject() {
 
         // get the canvas container width and height for resizing on load
-        var width = parseInt(getComputedStyle(document.getElementById('canvas-container')).width);
-        var height = parseInt(getComputedStyle(document.getElementById('canvas-container')).height);
+        var width = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
+        var height = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).height);
 
         let project = this.serializer.serialize({
           'container-width': width,
@@ -81,7 +81,7 @@ define(
 
           // get the canvas container width and height for resizinganalytics
           let oldWidth = parseFloat(project["container-width"]);
-          let newWidth = parseFloat(getComputedStyle(document.getElementById('canvas-container')).width);
+          let newWidth = parseFloat(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
 
           if (serializedCanvas) {
             this.serializer.deserialize(serializedCanvas, this.canvas, () => {

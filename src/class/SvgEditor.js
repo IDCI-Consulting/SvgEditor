@@ -23,6 +23,24 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
       this.loadPlugins();
     }
 
+    /**
+     * Trigger the ready function
+     */
+    triggerReadyFunction() {
+      let script = document.querySelector('script[data-editor-ready-function]');
+      if (script !== null) {
+        let readyFunctionName = script.getAttribute('data-editor-ready-function');
+
+        if (readyFunctionName !== null) {
+          let readyFunction = window[readyFunctionName];
+          if (typeof readyFunction === "function") {
+            readyFunction(this.canvas);
+          } else {
+            console.error('The function ' + readyFunctionName + ' declared with the data-editor-ready-function attribute is not defined');
+          }
+        }
+      }
+    }
 
     /**
      * Load the plugins from the configuration (check the parameters then start the plugins)

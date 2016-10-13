@@ -34,6 +34,7 @@ define(
               object.scaleY = event.ratio * object.scaleY;
               object.top    = event.ratio * object.top;
               object.left   = event.ratio * object.left;
+              object.setCoords();
             }
           }
         });

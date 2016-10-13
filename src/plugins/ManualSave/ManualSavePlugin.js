@@ -13,10 +13,11 @@ define(
        * Constructor
        */
       constructor(canvas, config) {
+        this.prefix = 'manual_save_';
         this.canvas = canvas;
         this.config = config;
         this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
-        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
+        this.persistenceManager = new PersistenceManagerRegistry(config).guessPersistenceManager(config.persistence_manager);
       }
 
       /**
@@ -50,14 +51,6 @@ define(
                   errors.push('No tag with id ' + this.config.manual_save.save_button_input_d + ' found');
                 }
               }
-
-             /* if (typeof this.config.manual_save.save_label === 'undefined') {
-                errors.push('manual_save.save_label must be defined (as a string) because the plugin is enabled');
-              }
-
-              if (typeof this.config.manual_save.load_label === 'undefined') {
-                errors.push('manual_save.load_label must be defined (as a string) because the plugin is enabled');
-              }*/
             }
           }
         }
@@ -74,20 +67,19 @@ define(
           $(document).ready(() => {
             $('body').append(this.getLoadModalHtmlContent());
             $('body').append(this.getSaveModalHtmlContent());
-          })
+          });
 
           // open the load modal
           document.getElementById(this.config.manual_save.load_button_input_id).onclick = (e) => {
-
             $('#load-modal').replaceWith(this.getLoadModalHtmlContent());
             $('#load-modal').modal('show');
-          }
+          };
 
           // open the save modal
           document.getElementById(this.config.manual_save.save_button_input_d).onclick = (e) => {
             $('#save-modal').replaceWith(this.getSaveModalHtmlContent());
             $('#save-modal').modal('show');
-          }
+          };
 
           // save as a new project
           $(document).on('click', '#new-save-button', event => {
@@ -122,14 +114,14 @@ define(
       getError(title) {
         title = title.trim();
         if (title.length === 0) {
-          return 'The title must not be filled';
+          return this.config.manual_save.labels.title_not_blank;
         }
 
-        let projects = this.persistenceManager.load({});
+        let projects = this.persistenceManager.load({'key': this.prefix});
         for (let i = 0, len = projects.length; i < len; i++) {
           let project = JSON.parse(projects[i]);
           if (project.title === title) {
-            return 'This title is already used';
+            return this.config.manual_save.labels.title_already_used;
           }
         }
 
@@ -147,7 +139,7 @@ define(
        * Load a project from his title
        */
       loadProject(title) {
-        let project = JSON.parse(this.persistenceManager.load({key: title}));
+        let project = JSON.parse(this.persistenceManager.load({key: this.prefix + title})[0]);
         let serializedCanvas = this.serializer.serialize(project.canvas);
         let oldWidth = parseFloat(project["container-width"]);
         let newWidth = parseFloat(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
@@ -176,7 +168,7 @@ define(
           'date': getCurrentDate()
         });
 
-        this.persistenceManager.persist(project, {key: title});
+        this.persistenceManager.persist(project, {key: this.prefix + title});
       }
 
       /**
@@ -185,8 +177,7 @@ define(
       getSaveModalHtmlContent() {
         let config = this.config;
         // get an array with all stringified projects
-        let projects = this.persistenceManager.load({});
-
+        let projects = this.persistenceManager.load({'key': this.prefix});
         /**
          * Template string for the save modal (ES6 feature)
          *
@@ -259,7 +250,7 @@ define(
       getLoadModalHtmlContent() {
         let config = this.config;
         // get an array with all stringified projects
-        let projects = this.persistenceManager.load({});
+        let projects = this.persistenceManager.load({'key': this.prefix});
         let labels = config.manual_save.labels;
 
         /**

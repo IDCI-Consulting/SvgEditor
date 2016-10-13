@@ -48,6 +48,7 @@ define(
               object.scaleX = ratio * object.scaleX;
               object.scaleY = ratio * object.scaleY;
               this.canvas.centerObject(object);
+              object.setCoords();
             }
 
             if (object.height > canvasHeight) { // the object is too large for the canvas so we resize it automatically
@@ -55,6 +56,7 @@ define(
               object.scaleX = ratio * object.scaleX;
               object.scaleY = ratio * object.scaleY;
               this.canvas.centerObject(object);
+              object.setCoords();
             }
           });
         }

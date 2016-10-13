@@ -63,7 +63,19 @@ define(
               SvgColorator.color(element, color);
               this.canvas.renderAll();
             }
-          }
+          };
+
+          this.canvas.on('object:selected', (event) => {
+            let object = event.target;
+            let color = SvgColorator.getColor(object);
+            if (color !== null) {
+              if (color.type === 'hexa') {
+                this.colorPicker.jscolor.fromString(color.value);
+              } else if (color.type === 'rgb') {
+                this.colorPicker.jscolor.fromRGB(color.r, color.g, color.b);
+              }
+            }
+          });
         }
       }
     }

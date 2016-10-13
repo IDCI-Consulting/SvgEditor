@@ -16,7 +16,7 @@ define(
         this.config = config;
         this.canvas = canvas;
         this.serializer = new SerializerRegistry().guessSerializer(config.serializer);
-        this.persistenceManager = new PersistenceManagerRegistry().guessPersistenceManager(config.persistence_manager);
+        this.persistenceManager = new PersistenceManagerRegistry(config).guessPersistenceManager(config.persistence_manager);
       }
 
       /**
@@ -42,7 +42,7 @@ define(
        * Start the plugin
        */
       start() {
-        if (this.config.auto_save === true) {
+        if (this.config.auto_save.enable === true) {
           this.canvas.on('after:render', () => {
             this.saveProject();
           });
@@ -54,7 +54,6 @@ define(
        * Persist the project
        */
       saveProject() {
-
         // get the canvas container width and height for resizing on load
         let width = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).width);
         let height = parseInt(getComputedStyle(document.getElementById(this.config.canvas_container_id)).height);
@@ -72,11 +71,9 @@ define(
        * Load the project
        */
       loadProject() {
-
-        let project = JSON.parse(this.persistenceManager.load({key: 'autosave'}));
-
-        if(project) {
-
+        let autosave = this.persistenceManager.load({key: 'autosave'});
+        if (autosave.length > 0) {
+          let project = JSON.parse(autosave);
           let serializedCanvas = this.serializer.serialize(project.canvas);
 
           // get the canvas container width and height for resizinganalytics
@@ -86,7 +83,7 @@ define(
           if (serializedCanvas) {
             this.serializer.deserialize(serializedCanvas, this.canvas, () => {
               let ratio = newWidth / oldWidth;
-              this.canvas.trigger("canvas:deserialized", { "ratio": ratio }); // used by the ObjectResizer
+              this.canvas.trigger("canvas:deserialized", {"ratio": ratio}); // used by the ObjectResizer
               this.canvas.renderAll();
             });
           }

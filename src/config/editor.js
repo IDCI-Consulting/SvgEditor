@@ -1,9 +1,10 @@
 /**
- * Plugins configuration
+ * Editor configuration
  */
 define(function () {
   return {
     'persistence_manager': 'local_storage',
+    'local_storage_prefix': 'svg_editor_',
     'serializer': 'json',
     // handles settings
     'corner_shift': 'middle', // middle, in or out

@@ -6,6 +6,14 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
   return class LocalStoragePersistenceManager extends AbstractPersistenceManager {
 
     /**
+     * Constructor
+     */
+    constructor(prefix) {
+      super();
+      this.prefix = prefix;
+    }
+
+    /**
      * Persist the canvas
      * 
      * @param canvas: the canvas to be persisted
@@ -15,7 +23,7 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
       if (typeof serializedCanvas !== 'string') {
         console.error('Only strings should be stored in local storage')
       } else {
-        localStorage.setItem(options.key, serializedCanvas);
+        localStorage.setItem(this.prefix + options.key, serializedCanvas);
       }
     }
 
@@ -24,16 +32,18 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
      * 
      * @param options
      *
-     * @return string: the serialized canvas
+     * @return []: an array of the items which start by the key
      */
     load(options) {
-      if (typeof options.key !== 'undefined') {
-        return localStorage.getItem(options.key);
+      if (typeof options.key === 'undefined') {
+        console.error('Load function missing argument: options.key');
       } else {
-        // get all items
+        // get all items with
         let items = [];
         for (let i = 0, len = localStorage.length; i < len; ++i) {
-          items.push(localStorage.getItem(localStorage.key(i)));
+          if (localStorage.key(i).indexOf(this.prefix + options.key) === 0) {
+            items.push(localStorage.getItem(localStorage.key(i)));
+          }
         }
 
         return items;

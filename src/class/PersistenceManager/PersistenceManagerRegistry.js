@@ -3,16 +3,16 @@
  */
 define(['./LocalStoragePersistenceManager'], function (LocalStoragePersistenceManager) {
 
-  return class ImageReaderRegistry {
+  return class PersistenceManagerRegistry {
  
     /**
      * Constructor
      */
-    constructor() {
+    constructor(config) {
       this.keyPersistenceManagerMap = [
         {
           "key": "local_storage",
-          "persistenceManager": new LocalStoragePersistenceManager()
+          "persistenceManager": new LocalStoragePersistenceManager(config.local_storage_prefix)
         }
       ];
     }

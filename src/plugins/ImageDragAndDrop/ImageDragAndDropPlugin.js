@@ -71,10 +71,7 @@ define(
             this.images[i].addEventListener('dragend', event => this.handleDragEnd(event), false);
 
             // mobile touch support
-            if ('ontouchstart' in window || navigator.maxTouchPoints) {
-              this.images[i].addEventListener('touchstart', event => this.handleTouchStart(event), false);
-              this.images[i].addEventListener('click', event => this.handleTouchStart(event), false);
-            }
+            this.images[i].addEventListener('touchstart', event => this.handleTouchStart(event), false);
           }
 
           let canvasContainer = document.getElementById(this.config.canvas_container_id);

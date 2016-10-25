@@ -18,11 +18,11 @@ function getExtension(string) {
  */
 function getCurrentDate() {
   let currentDate = new Date();
-  let day         = currentDate.getDate();
-  let month       = currentDate.getMonth() + 1;
+  let day         = ('0' + currentDate.getDate()).slice(-2);
+  let month       = ('0' + (currentDate.getMonth() + 1)).slice(-2);
   let year        = currentDate.getFullYear();
   let hours       = currentDate.getHours();
-  let minutes     = currentDate.getMinutes();
+  let minutes     = ('0' + currentDate.getMinutes()).slice(-2);
 
   return day + "/" + month + "/" + year + ' ' + hours + 'h' + minutes;
 }

@@ -9,6 +9,12 @@ define(function () {
      * Override the fabric object
      */
     static override(fabric, config) {
+      fabric.Canvas.prototype.hoverCursor = config.hoverCursor;
+      fabric.Canvas.prototype.moveCursor = config.moveCursor;
+      fabric.Canvas.prototype.defaultCursor = config.defaultCursor;
+      fabric.Canvas.prototype.freeDrawingCursor = config.freeDrawingCursor;
+      fabric.Canvas.prototype.rotationCursor = config.rotationCursor;
+
       fabric.Object.prototype.set({
         transparentCorners: config.transparent_corners,
         borderColor: config.border_color,

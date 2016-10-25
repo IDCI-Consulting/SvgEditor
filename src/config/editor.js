@@ -14,6 +14,13 @@ define(function () {
     'corner_color': '#000000',
     'border_color': '#000000',
 
+    // cursor settings
+    'hoverCursor': 'move',
+    'moveCursor': 'move',
+    'defaultCursor': 'default',
+    'freeDrawingCursor': 'crosshair',
+    'rotationCursor': 'crosshair',
+
     // manual save labels default
     'manual_save': {
       'labels': {

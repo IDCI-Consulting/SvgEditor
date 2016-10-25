@@ -10,9 +10,9 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
      */
     constructor() {
       this.editorConfig = SvgEditor.getConfiguration(editorDefaultConfiguration);
+      FabricOverrider.override(fabric, this.editorConfig);
       this.canvas = new fabric.Canvas(this.editorConfig.canvas_id);
       this.pluginsConfig = plugins;
-      FabricOverrider.override(fabric, this.editorConfig);
     }
 
     /**

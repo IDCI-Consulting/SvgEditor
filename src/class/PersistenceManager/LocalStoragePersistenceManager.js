@@ -50,6 +50,27 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
       }
     }
 
+    /**
+     * Remove the from local storage
+     *
+     * @param options
+     */
+    remove(options) {
+      if (typeof options.key === 'undefined') {
+        console.error('Remove function missing argument: options.key');
+      } else {
+        // get all items with
+        let items = [];
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+          if (localStorage.key(i).indexOf(this.prefix + options.key) === 0) {
+            localStorage.removeItem(localStorage.key(i));
+          }
+        }
+
+        return items;
+      }
+    }
+
   }
 
 });

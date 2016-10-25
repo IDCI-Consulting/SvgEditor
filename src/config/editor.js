@@ -35,7 +35,8 @@ define(function () {
         'load': 'Load',
         'close': 'Close',
         'title_already_used': 'This title is already used',
-        'title_not_blank': 'The title cannot be blank'
+        'title_not_blank': 'The title cannot be blank',
+        'delete': 'Delete'
       }
     }
   };

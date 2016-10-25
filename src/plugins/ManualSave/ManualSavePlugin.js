@@ -105,6 +105,12 @@ define(
             let title = $(event.target).data('project');
             this.loadProject(title);
           });
+
+          // delete a project
+          $(document).on('click', '.delete-button', event => {
+            let title = $(event.target).data('project');
+            this.removeProject(title);
+          });
         }
       }
 
@@ -150,6 +156,14 @@ define(
           this.canvas.renderAll();
           $('#load-modal').modal('hide');
         });
+      }
+
+      /**
+       * Remove a project from his title
+       */
+      removeProject(title) {
+        this.persistenceManager.remove({key: this.prefix + title});
+        $('#load-modal').modal('hide');
       }
 
       /**
@@ -263,16 +277,21 @@ define(
           let string = templateData[0];
           let len = projects.length;
           if (len > 0) {
-            let html = '<table>'
+            let html = '<table>';
             for (let i = 0; i < len; i++) {
               let project = JSON.parse(projects[i]);
               html +=
                 '<tr>' +
                 '<td>' + project.title + '</td>' +
                 '<td>' + project.date + '</td>' +
-                '<td><button type="button" class="load-button btn btn-default" data-project="' + project.title + '">' +
-                config.manual_save.labels.load +
-                '</button></td>' +
+                '<td>' +
+                '<button type="button" class="load-button btn btn-default" data-project="' + project.title + '">' +
+                    config.manual_save.labels.load +
+                '</button>' +
+                '<button type="button" class="delete-button btn btn-default" data-project="' + project.title + '">' +
+                    config.manual_save.labels.delete +
+                '</button>' +
+                '</td>' +
                 '</tr>'
               ;
             }

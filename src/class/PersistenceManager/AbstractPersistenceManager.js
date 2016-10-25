@@ -21,6 +21,10 @@ define(function () {
       if (this.load === undefined) {
         throw new TypeError("load must be implemented");
       }
+
+      if (this.remove === undefined) {
+        throw new TypeError("remove must be implemented");
+      }
     }
   }
 });

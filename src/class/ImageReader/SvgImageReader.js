@@ -20,7 +20,7 @@ define(['./AbstractImageReader'], function (AbstractImageReader) {
 
           return callback(obj);
         });
-      }
+      };
 
       reader.readAsText(file);
     }

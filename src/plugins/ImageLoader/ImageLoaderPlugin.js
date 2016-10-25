@@ -41,7 +41,6 @@ define(
                   this.imageInput = document.getElementById(this.config.image_loader.file_input_id);
                 }
               }
-
             }
           }
         }
@@ -65,6 +64,7 @@ define(
             imageReader.getCanvasImage(file, (item) => {
               this.canvas.centerObject(item);
               this.canvas.add(item);
+              this.canvas.fire('object:newly-added', { target: item });
             });
           }
         }

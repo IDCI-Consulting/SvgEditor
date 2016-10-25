@@ -121,6 +121,7 @@ define(
           imageReader.getCanvasImage(file, (item) => {
             this.canvas.centerObject(item);
             this.canvas.add(item);
+            this.canvas.fire('object:newly-added', { target: item });
           });
         });
       }
@@ -160,6 +161,7 @@ define(
               item.left = event.layerX;
               item.top = event.layerY;
               this.canvas.add(item);
+              this.canvas.fire('object:newly-added', { target: item });
             });
           });
 
@@ -194,7 +196,7 @@ define(
       /**
        * Function triggered on drag end
        */
-      handleDragEnd(event) {
+      handleDragEnd() {
         for (let i = 0, len = this.images.length; i < len; i++) {
           this.images[i].classList.remove('img_dragging');
         }

@@ -115,20 +115,7 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
         }
       }
 
-      //merge the default with the new configuration
-      var mergedConfiguration = {};
-      for (var defaultAttribute in defaultConfiguration) {
-        if (defaultConfiguration.hasOwnProperty(defaultAttribute)) {
-          mergedConfiguration[defaultAttribute] = defaultConfiguration[defaultAttribute];
-        }
-      }
-      for (var attribute in editorConfig) {
-        if (editorConfig.hasOwnProperty(attribute)) {
-          mergedConfiguration[attribute] = editorConfig[attribute];
-        }
-      }
-
-      return mergedConfiguration;
+      return mergeObjects(defaultConfiguration, editorConfig);
     }
 
     /**

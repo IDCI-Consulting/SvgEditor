@@ -58,7 +58,7 @@ define(function () {
      * @return {}
      */
     static format(color) {
-      let hexaRegex = /#([0-9A-F]{6})/;
+      let hexaRegex = /#([0-9a-fA-F]{6})/;
       let matches = hexaRegex.exec(color);
       if (matches !== null) {
         return {

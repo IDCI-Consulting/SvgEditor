@@ -21,8 +21,41 @@ define(function () {
     'freeDrawingCursor': 'crosshair',
     'rotationCursor': 'crosshair',
 
-    // manual save labels default
+    // manual save default labels
+    'auto_save': {
+      'enable': false
+    },
+    'auto_image_resizer': {
+      'enable': false
+    },
+    'remove_object': {
+      'enable': false
+    },
+    'color_picker': {
+      'enable': false
+    },
+    'image_drag_and_drop': {
+      'enable': false
+    },
+    'image_loader': {
+      'enable': false
+    },
+    'image_flipper': {
+      'enable_horizontal_flip': false,
+      'enable_vertical_flip': false
+    },
+    'keyboard_listener': {
+      'enable_delete_object': false,
+      'enable_move_object': false
+    },
+    'output_area': {
+      'enable': false
+    },
+    'object_resizer': {
+      'enable': true
+    },
     'manual_save': {
+      'enable': false,
       'labels': {
         'save': 'Save',
         'save_this_project': 'Save this project',

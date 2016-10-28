@@ -1,14 +1,13 @@
 Svg editor widget
 =================
 
-A simple editor widget to create svg composed images.
-This editor is based on fabricjs.
-It is only composed of a canvas with plugins adding new features on it.
+A simple editor widget to create svg composed images. [Check out the live demo](https://idci-consulting.github.io/SvgEditor/).
+This editor is based on [fabricjs](https://github.com/kangax/fabric.js/). It is merely composed of a canvas with plugins adding new features on it.
 
 Requirements
 ------------
 
-You'll need either **docker** and **docker-compose**, or **node** and **npm** along with **bower** and **gulp-cli**.
+You'll need either **docker** and **docker-compose**, or **node** and **npm** along with **gulp-cli**.
 
 Installation
 ------------
@@ -16,7 +15,6 @@ Installation
 ### On your own setup
 
 ```
-bower install
 npm install
 npm install --global gulp-cli
 gulp watch
@@ -29,10 +27,9 @@ The gulp watch command is always executed whenever not running.
 ```
 docker-compose up -d
 docker exec -it svgeditorwidget_app_1 npm install
-docker exec -it svgeditorwidget_app_1 bower install --allow-root
 ```
 
-This will create a lib/ directory with scripts in it.
+This will create a lib/ directory with built scripts in it.
 
 ### Build
 
@@ -52,8 +49,8 @@ here is the minimal html you need to get the editor working:
         <title>Svg widget editor</title>
         <link rel="stylesheet" href="style.css">
         <script src="lib/utils.js"></script>
-        <script src="bower_components/fabric.js/dist/fabric.js"></script>
-        <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
+        <script src="assets/fabric.min.js"></script>
+        <script data-main="lib/init" src="assets/require.js"></script>
     </head>
     <body>
         <canvas id="canvas" width="300" height="300"></canvas>
@@ -138,7 +135,7 @@ define(function () {
     ... // other plugins
     ,{
       "class": "path/to/your/plugin/MyAwesomePlugin",
-      "priority" : "3" // optional
+      "priority" : "3" // optional, it can be helpfull when plugin have dependency b
     }
   ];
 });

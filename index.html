@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="style.css">
         <script src="assets/jquery.min.js"></script>
         <link rel="stylesheet" href="assets/bootstrap-modal/css/bootstrap.min.css">
-        <script src="bower_components/fabric.js/dist/fabric.js"></script>
+        <script src="assets/fabric.min.js"></script>
         <script src="assets/jscolor.min.js"></script>
         <script src="src/utils.js"></script>
         <script src="assets/bootstrap-modal/js/bootstrap.min.js"></script>
@@ -91,7 +91,7 @@
             data-main="src/init"
             data-configuration-variable="idciSvgEditorConfig"
             data-editor-ready-function="editorReady"
-            src="bower_components/requirejs/require.js">
+            src="assets/require.js">
         </script>
         <script type="text/javascript">
             function editorReady(canvas) {
@@ -107,6 +107,7 @@
         </script>
     </head>
     <body>
+        <span>Select an svg object and delete it</span><br/>
         <input type="button" value="delete" id="remove-object"><br/><br/>
         <input id="image-loader" type="file" name="picture"/><br/><br/>
         <span>Drag and drop the images below</span>

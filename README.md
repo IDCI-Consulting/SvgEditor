@@ -113,7 +113,7 @@ Plugin reference
 * [AutoSavePlugin](src/plugins/AutoSave/README.md): Automatically save the plugin each time the canvas is rendered in local storage
 
 Improve the editor
-==================
+------------------
 
 See how to:
 

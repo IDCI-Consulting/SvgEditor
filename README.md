@@ -186,7 +186,7 @@ define(function () {
   return [
     ... // other plugins
     ,{
-      "class": "path/to/your/plugin/MyAwesomePlugin
+      "class": "path/to/your/plugin/MyAwesomePlugin",
       "priority" : "3" // optional, it can be helpful when plugin depends on other plugins and must be loaded in a specific order
     }
   ];

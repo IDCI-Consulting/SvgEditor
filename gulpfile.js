@@ -10,7 +10,6 @@ var scripts =
 ;
 
 var gulp       = require('gulp'),
-    livereload = require('gulp-livereload'),
     babel      = require('gulp-babel'),
     optimize   = require('gulp-requirejs-optimize'),
     chown      = require('gulp-chown'),
@@ -21,9 +20,7 @@ var gulp       = require('gulp'),
 
 // Task to watch files
 gulp.task('watch', ['babel'], function() {
-  livereload.listen();
   gulp.watch(scripts, ['babel', 'views']);
-  // gulp.watch(views, ['views']);
 });
 
 // Task to watch files
@@ -39,14 +36,6 @@ gulp.task('babel', function() {
     .pipe(chmod(750))
     .pipe(gulp.dest('lib'))
   ;
-});
-
-// reload page after editing index.html
-gulp.task('views', function() {
-    gulp
-      .src(views)
-      .pipe(livereload())
-    ;
 });
 
 // task to build the project (one file output)
@@ -75,15 +64,5 @@ gulp.task('build', ['babel'], function () {
       .pipe(chown('www-data'))
       .pipe(chmod(750))
       .pipe(gulp.dest('dist'))
-    ;
-});
-
-// task to concat all files
-gulp.task('build-all', ['build'], function () {
-    gulp.src(scripts)
-        .pipe(uglify())
-        .pipe(concat({ path: 'svg-editor-all.min.js'}))
-        .pipe(chmod(775))
-        .pipe(gulp.dest('dist'))
     ;
 });

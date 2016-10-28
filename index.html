@@ -6,7 +6,6 @@
         <title>Svg editor</title>
         <link rel="stylesheet" href="style.css">
         <script src="assets/jquery.min.js"></script>
-        <script type="text/javascript" src="http://127.0.0.1:35729/livereload.js?ext=Chrome&amp;extver=2.1.0"></script>
         <link rel="stylesheet" href="assets/bootstrap-modal/css/bootstrap.min.css">
         <script src="bower_components/fabric.js/dist/fabric.js"></script>
         <script src="assets/jscolor.min.js"></script>
@@ -19,11 +18,14 @@
                 'canvas_container_id': 'canvas-container',
 
                 // handles settings
-                'corner_shift': 'middle', // middle, in or out
+                'corner_shift': 'in', // middle, in or out
                 'corner_size': 15,
                 'transparent_corners': true,
                 'corner_color': '#00D0AE',
                 'border_color': '#00D0AE',
+
+                // cursors settings
+                // 'moveCursor': 'url(/cursor.cur) 8 8, auto',
 
                 // plugins settings
                 'auto_save': {
@@ -55,25 +57,27 @@
                     'vertical_flip_input_id': 'verticalflip-modal-button'
                 },
                 'keyboard_listener': {
-                    'enable_delete_object': true
+                    'enable_delete_object': true,
+                    'enable_move_object': true
                 },
                 'manual_save': {
                     'enable': true,
                     'load_button_input_id': 'load-modal-button',
                     'save_button_input_d': 'save-modal-button',
                     'labels': {
-                        'save': 'Sauvegarder',
-                        'save_this_project': 'Sauvegarder ce dessin',
-                        'new_save': 'Nouvelle sauvegarde',
-                        'override_save': 'Ecraser une sauvegarde',
-                        'no_save_already': 'Aucune sauvegarde',
-                        'new_save_placeholder': 'Votre titre ici...',
-                        'load_project': 'Charger un dessin',
-                        'nothing_to_load': 'Aucun dessin à charger',
-                        'load': 'Charger',
-                        'close': 'Fermer',
-                        'title_already_used': 'Ce titre est déjà utilisé',
-                        'title_not_blank': 'Le titre doit être renseigné'
+                        'save': 'Save',
+                        'save_this_project': 'Save this drawing',
+                        'new_save': 'New save',
+                        'override_save': 'Override',
+                        'no_save_already': 'No save already',
+                        'new_save_placeholder': 'Your title goes here...',
+                        'load_project': 'Load a drawing',
+                        'nothing_to_load': 'No drawings to load',
+                        'load': 'Load',
+                        'close': 'Close',
+                        'title_already_used': 'This title is already used',
+                        'title_not_blank': 'The title must be filled',
+                        'delete': 'Delete'
                     }
                 },
                 'output_area': {
@@ -91,6 +95,7 @@
         </script>
         <script type="text/javascript">
             function editorReady(canvas) {
+                // do things with the canvas
                 canvas.on('object:selected', function() {
                     //console.log("selected");
                 });
@@ -111,6 +116,8 @@
           <img src="assets/svg/gnu.svg" width="50" height="50">
           <img src="assets/svg/tux.svg" width="50" height="50">
           <img src="assets/svg/vroum.svg" width="50" height="50">
+          <img src="assets/svg/panda.svg" width="50" height="50">
+          <img src="assets/svg/bonjour.svg" width="50" height="50">
         </div><br/>
         <input id="load-modal-button" type="button" name="load" value="load a project"/>
         <input id="save-modal-button" type="button" name="save" value="save a project"/><br/><br/>
@@ -119,7 +126,7 @@
         <span>Select an svg object and color it</span><br/>
         <input id="color-picker" class="jscolor" value="000000" readonly="true"><br/><br/>
         <div id="canvas-container">
-          <canvas id="canvas" width="300" height="300"></canvas>
+          <canvas id="canvas" width="220" height="415"></canvas>
         </div><br/>
         <textarea id="svg-output-area" rows="15" cols="50"></textarea>
     </body>

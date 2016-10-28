@@ -67,7 +67,7 @@ define(function () {
         }
       }
 
-      let rgbRegex = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/;
+      let rgbRegex = /rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})(,[0-9])?\)/;
       matches = rgbRegex.exec(color);
       if (matches !== null) {
         return {

@@ -9,10 +9,10 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
      * Constructor
      */
     constructor() {
-      this.editorConfig = SvgEditor.getConfiguration(editorDefaultConfiguration);
-      FabricOverrider.override(fabric, this.editorConfig);
-      this.canvas = new fabric.Canvas(this.editorConfig.canvas_id);
-      this.pluginsConfig = plugins;
+        this.editorConfig = SvgEditor.getConfiguration(editorDefaultConfiguration);
+        FabricOverrider.override(fabric, this.editorConfig);
+        this.canvas = new fabric.Canvas(this.editorConfig.canvas_id);
+        this.pluginsConfig = plugins;
     }
 
     /**
@@ -36,7 +36,7 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
           if (typeof readyFunction === "function") {
             readyFunction(this.canvas);
           } else {
-            console.error('The function ' + readyFunctionName + ' declared with the data-editor-ready-function attribute is not defined');
+            throw new Error('The function ' + readyFunctionName + ' declared with the data-editor-ready-function attribute is not defined');
           }
         }
       }
@@ -52,12 +52,12 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
       for (let i=0; i < this.pluginsConfig.length; i++) {
         let pluginConfig = this.pluginsConfig[i];
         if (typeof pluginConfig['class'] === 'undefined') {
-          console.error('Could not load the plugin at position '+i+' in the plugins.js file. The \'class\' parameter must be defined');
+          throw new Error('Could not load the plugin at position '+i+' in the plugins.js file. The \'class\' parameter must be defined');
         } else {
           require([pluginConfig['class']], (Plugin) => {
             let plugin = new Plugin(this.canvas, this.editorConfig);
             if (typeof plugin.start !== 'function' || typeof plugin.getConfigurationErrors !== 'function') {
-              console.error('start() and getConfigurationErrors() functions must be implemented for the plugin ' + pluginConfig['class']);
+              throw new Error('start() and getConfigurationErrors() functions must be implemented for the plugin ' + pluginConfig['class']);
             } else {
               let errors = plugin.getConfigurationErrors();
               if (errors.length === 0) {
@@ -68,7 +68,7 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
                   message += '\n - '+errors[i];
                 }
 
-                console.error(message);
+                throw new Error(message);
               }
             }
           });
@@ -84,34 +84,28 @@ define(['./FabricOverrider', '../config/plugins', '../config/editor'], function 
     static getConfiguration(defaultConfiguration) {
       let script = document.querySelector('script[data-configuration-variable]');
       if (script === null) {
-        console.error('The data-configuration-variable is missing on the require.js script tag');
-        return null;
+        throw new Error('The data-configuration-variable is missing on the require.js script tag');
       }
 
       let configurationVariableName = script.getAttribute('data-configuration-variable');
       let editorConfig = window[configurationVariableName];
       if (typeof editorConfig === 'undefined') {
-        console.error('The variable ' + configurationVariableName + ' is not accessible');
-        return null;
+        throw new Error('The variable ' + configurationVariableName + ' is not accessible');
       }
 
       if (typeof editorConfig.canvas_id === 'undefined') {
-        console.error('The canvasId must be present in the configuration');
-        return null;
+        throw new Error('The canvasId must be present in the configuration');
       } else {
         if (document.getElementById(editorConfig.canvas_id) === null) {
-          console.error('No canvas with id '+ editorConfig.canvas_id +' found');
-          return null;
+          throw new Error('No canvas with id '+ editorConfig.canvas_id +' found');
         }
       }
 
       if (typeof editorConfig.canvas_container_id === 'undefined') {
-        console.error('The canvas_container_id must be present in the configuration (the canvas must be wrapped in a div with an id)');
-        return null;
+        throw new Error('The canvas_container_id must be present in the configuration (the canvas must be wrapped in a div with an id)');
       } else {
         if (document.getElementById(editorConfig.canvas_container_id) === null) {
-          console.error('No canvas container with id '+ editorConfig.canvas_container_id +' found');
-          return null;
+          throw new Error('No canvas container with id '+ editorConfig.canvas_container_id +' found');
         }
       }
 

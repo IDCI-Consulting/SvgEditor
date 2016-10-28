@@ -75,7 +75,7 @@ If you want all plugins available and installed right away, just clone the proje
 
 You can use the fabricjs canvas object once the editor is loaded by adding a function whose name is specified with the **data-editor-ready-function** attribute, on the script that load requirejs. Let's say you want to hide a button when no object is selected:
 
-```
+```html
 <script type="text/javascript"
     data-main="src/init"
     data-configuration-variable="idciSvgEditorConfig"

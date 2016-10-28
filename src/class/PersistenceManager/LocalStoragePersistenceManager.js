@@ -16,7 +16,7 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
     /**
      * Persist the canvas
      * 
-     * @param canvas: the canvas to be persisted
+     * @param serializedCanvas: the canvas to be persisted
      * @param options
      */
     persist(serializedCanvas, options) {
@@ -51,7 +51,7 @@ define(['./AbstractPersistenceManager'], function (AbstractPersistenceManager) {
     }
 
     /**
-     * Remove the from local storage
+     * Remove the item from local storage
      *
      * @param options
      */

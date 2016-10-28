@@ -102,8 +102,6 @@ Plugin reference
 
 * [ImageFlipperPlugin](src/plugins/ImageFlipper/README.md): Flip images vertically or horizontally
 * [ImageLoaderPlugin](src/plugins/ImageLoader/README.md): Load images to the canvas thanks to a file input
-* [ManualSavePlugin](src/plugins/ManualSave/README.md): Display a modal that will be used to load or save the canvas (in local storage but it can be easily extended)
-* [AutoSavePlugin](src/plugins/AutoSave/README.md): Automatically save the plugin each time the canvas is rendered (in local storage but it can be easily extended)
 * [ObjectResizerPlugin](src/plugins/ObjectResizer/README.md): Resize the canvas objects. Used only to add 'responsivness' to the canvas
 * [ColorPickerPlugin](src/plugins/ColorPicker/README.md)ColorPickerPlugin: Color a selected svg in the canvas thank to the [jscolor picker](http://jscolor.com/)
 * [OutputAreaPlugin](src/plugins/OutputArea/README.md): Output the final svg in a textarea
@@ -111,88 +109,13 @@ Plugin reference
 * [ImageDragAndDropPlugin](src/plugins/ImageDragAndDrop/README.md): Drag and drop images to the canvas
 * [AutoImageResizerPlugin](src/plugins/AutoImageResizer/README.md): Automatically resize images when they are bigger than the canvas
 * [RemoveObjectPlugin](src/plugins/RemoveObject/README.md): Delete selected object thank to a button
+* [ManualSavePlugin](src/plugins/ManualSave/README.md): Display a modal that will be used to load / save the canvas in local storage
+* [AutoSavePlugin](src/plugins/AutoSave/README.md): Automatically save the plugin each time the canvas is rendered in local storage
 
-Creating a plugin
-------------------
+Improve the editor
+==================
 
-Here is the skeleton of a plugin. You need to wrap it by the requirejs define function so it can be loaded by the editor.
+See how to:
 
-```js
-/**
- * MyAwesomePlugin module
- */
-define(
-  function () {
-
-    return class MyAwesomePlugin {
-
-      /**
-       * Constructor
-       *
-       * @param canvas : a fabric.Canvas() object
-       * @param editorConfig : the configuration from the config/editor.js file
-       * @param pluginConfig : the configuration from the config/plugin.js file
-       */
-      constructor(canvas, editorConfig) {
-        this.canvas = canvas;
-        this.config = editorConfig;
-      }
-
-      /**
-       * Get the configuration errors
-       * this function is used to check if the configuration is valid before the start() function is ran
-       *
-       * @return array
-       */
-      getConfigurationErrors() {
-        let errors = [];
-
-        if (typeof this.config.plugin_name === 'undefined') {
-          errors.push('plugin_name must be defined');
-        } else {
-          if (this.config.plugin_name.enable !== 'boolean') {
-            errors.push('plugin_name.enable must be defined as a boolean');
-          } else {
-            if (this.config.plugin_name.enable === true) {
-             ... //additional configuration
-            }
-          }
-        }
-
-        return errors;
-      }
-
-      /**
-       * Start the plugin
-       */
-      start() {
-        if (this.config.plugin_name.enable === true) {
-            // Your magic goes here.
-            // With the configuration and the canvas, do whatever you want to add features on the canvas
-        }
-      }
-    }
-  }
-);
-```
-
-Finally you just need to register your plugin in the configuration:
-
-```js
-/**
- * Plugins configuration
- */
-define(function () {
-  return [
-    ... // other plugins
-    ,{
-      "class": "path/to/your/plugin/MyAwesomePlugin",
-      "priority" : "3" // optional, it can be helpful when plugin depends on other plugins and must be loaded in a specific order
-    }
-  ];
-});
-```
-
-You can add **default configuration to your plugin** by editing the config/editor.js file.
-
-Remember to add it also int the gulp file for the requirejs optimize task.
+* [Create a plugin](docs/create_plugin.md) to add features to the canvas
+* Add a new persistence manager to save data wherever you want (TODO)

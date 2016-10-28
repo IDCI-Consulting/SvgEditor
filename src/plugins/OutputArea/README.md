@@ -13,22 +13,25 @@ First, add a textarea with the id of your choice.
         <title>Svg widget editor</title>
         <link rel="stylesheet" href="style.css">
         <script src="lib/utils.js"></script>
-        <script src="bower_components/fabric.js/dist/fabric.js"></script>
-        <script data-main="lib/init" src="bower_components/requirejs/require.js"></script>
+        <script src="assets/fabric.min.js"></script>
+        <script data-main="lib/init" src="assets/require.js"></script>
     </head>
     <body>
-        <canvas id="canvas" width="300" height="300"></canvas>
+        <div id="my-canvas-container-id">
+            <canvas id="canvas" width="300" height="300"></canvas>
+        </div>
         <textarea id="my-output-area" rows="15" cols="50"></textarea></br>
     </body>
 </html>
 ```
 
-Finally you need to register the plugin in the config/plugin.js file just like this:
+You just need to configure the plugin by updating your configuration object:
 
 ```js
 ...,
-{
-  "class": "plugins/OutputArea/OutputAreaPlugin",
-  "texareaId": "my-output-area"
+'output_area': {
+    'enable': true,
+    'texarea_id': 'my-output-area',
+    'enable_textarea_edition': false
 }
 ```

@@ -1,13 +1,13 @@
 AutoSave Plugin
 ===============
 
-This plugin save the canvas in the local storage (in stringified json after ) after each render.
+This plugin save the canvas in the local storage (a stringified json) after each render.
 
-You just need to register the plugin in the config/plugin.js file:
+You just need to enable the plugin by updating your configuration object:
 
 ```js
 ...,
-{
-  "class": "plugins/AutoSave/AutoSavePlugin"
-}
+'auto_save': {
+    'enable': true
+},
 ```

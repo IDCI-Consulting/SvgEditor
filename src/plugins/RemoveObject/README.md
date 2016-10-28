@@ -1,9 +1,7 @@
-ImageDragAndDropper Plugin
-==========================
+RemoveObject Plugin
+===================
 
-This plugin allow to drag and drop images to the canvas.
-
-First, add a container to the canvas and another one which will include all your images.
+This plugin allow to delete a selected object thanks to a button.
 
 ```html
 <!DOCTYPE html>
@@ -17,13 +15,9 @@ First, add a container to the canvas and another one which will include all your
         <script data-main="lib/init" src="assets/require.js"></script>
     </head>
     <body>
-        <body>
-        <div id="my-image-container-id">
-          <img src="assets/svg/cat.svg" width="50">
-          <img src="assets/svg/dog.png" width="50">
-        </div>
+        <input type="button" value="delete" id="remove-object"><br/><br/>
         <div id="my-canvas-container-id">
-          <canvas id="canvas" width="300" height="300"></canvas>
+            <canvas id="canvas" width="300" height="300"></canvas>
         </div>
     </body>
 </html>
@@ -32,9 +26,9 @@ First, add a container to the canvas and another one which will include all your
 Finally you need to configure the plugin by updating your configuration object:
 
 ```js
-...
-'image_drag_and_drop': {
+...,
+'remove_object': {
     'enable': true,
-    'image_container_id': 'my-image-container-id'
+    'input_id': 'remove-object'
 },
 ```

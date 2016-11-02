@@ -1,14 +1,5 @@
 'use strict';
 
-var scripts =
-    [
-        'bower_components/fabric.js/dist/fabric.js',
-        'assets/jscolor.min.js',
-        'dist/svg-editor.min.js'
-    ],
-    views   = 'index.html'
-;
-
 var gulp       = require('gulp'),
     babel      = require('gulp-babel'),
     optimize   = require('gulp-requirejs-optimize'),
@@ -20,11 +11,10 @@ var gulp       = require('gulp'),
 
 // Task to watch files
 gulp.task('watch', ['babel'], function() {
-  gulp.watch(scripts, ['babel', 'views']);
+  gulp.watch('src/**/*.js', ['babel']);
 });
 
 // Task to watch files
-gulp.task('prod', ['babel'], function() {});
 
 gulp.task('babel', function() {
   gulp

@@ -1,32 +1,32 @@
-Svg editor widget
-=================
+Svg editor
+==========
 
 A simple editor widget to create svg composed images. [Check out the live demo](https://idci-consulting.github.io/SvgEditor/).
 This editor is based on [fabricjs](https://github.com/kangax/fabric.js/). It is merely composed of a canvas with plugins adding new features on it.
 
-Dev environment requirements
-----------------------------
+Getting started
+---------------
 
+This svg editor must run in a browser that support es6. If not, use [gulp](http://gulpjs.com/) to build the javascript file with babel (gulp build task).
 You'll need either **docker** and **docker-compose**, or **node** and **npm** along with **gulp-cli**.
+The gulp build command create a **lib/** directory with built scripts in it. You must update the data-main attribute of the requirejs script with the right path of your script.
+
+### With docker
+
+Run the following command:
+
+```
+docker-compose up -d && docker exec -it svgeditor_app_1 npm install
+```
+
+Then browse [http://localhost:8030](http://localhost:8030).
 
 ### On your own setup
 
 ```
 npm install
 npm install --global gulp-cli
-gulp watch
 ```
-
-### Dockerized
-
-The gulp watch command is always executed whenever not running.
-
-```
-docker-compose up -d
-docker exec -it svgeditorwidget_app_1 npm install
-```
-
-This will create a lib/ directory with built scripts in it.
 
 ### Build
 
@@ -48,9 +48,9 @@ You **must** create a configuration object whose name is defined with the **data
         <meta charset="utf-8">
         <title>Svg widget editor</title>
         <link rel="stylesheet" href="style.css">
-        <script src="lib/utils.js"></script>
+        <script src="src/utils.js"></script>
         <script src="assets/fabric.min.js"></script>
-        <script data-main="lib/init" src="assets/require.js" data-configuration-variable="idciSvgEditorConfig"></script>
+        <script data-main="src/init" src="assets/require.js" data-configuration-variable="idciSvgEditorConfig"></script>
         <script type="text/javascript">
             var idciSvgEditorConfig = {
                 'canvas_id': 'canvas',
